@@ -2,12 +2,7 @@
 
 ![Project Image](path/to/project-image.png)
 
-> Need update mutiple checkbox delete
-> Need update Editpage
-> Need salary cal
-> Need check-in/out day
-> Need Auntcation
-> and More
+> Some Description
 
 ## สารบัญ
 
