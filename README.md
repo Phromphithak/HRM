@@ -36,6 +36,9 @@
 3. ติดตั้ง dependencies: `npm install`
 4. รันโปรเจค: `npm start`
 
+## เปลี่ยนที่อยู่ Mongo db
+1. Server/config.env
+
 ## การใช้งาน
 
 1. เข้าสู่ระบบ
