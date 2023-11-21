@@ -31,7 +31,7 @@
 
 ## การติดตั้ง
 
-1. Clone โปรเจค: `git clone https://github.com/your-username/your-project.git`
+1. Clone โปรเจค: `git clone https://github.com/Phromphithak/your-project.git`
 2. เข้าไปในไดเร็กทอรี: `cd your-project`
 3. ติดตั้ง dependencies: `npm install`
 4. รันโปรเจค: `npm start`
