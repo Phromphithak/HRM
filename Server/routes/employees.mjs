@@ -1,65 +1,68 @@
 import express from "express";
 import db from "../db/conn.mjs";
 import { ObjectId } from "mongodb";
+import employee from "../db/models/employee.mjs";
 
 const router = express.Router();
 
 // This section will help you get a list of all the records.
 router.get("/", async (req, res) => {
-  let collection = await db.collection("employees");
-  let results = await collection.find({}).toArray();
-  res.send(results).status(200);
+  try {
+    let collection = await db.collection("employees");
+    let results = await collection.find({}).toArray();
+    res.send(results).status(200);
+  } catch (error) {
+    console.log(error)
+    res.status(500).send('Server Error')
+  }
 });
 
-// This section will help you get a single record by id
+// get a single record by id
 router.get("/:id", async (req, res) => {
-  let collection = await db.collection("employees");
-  let query = {_id: new ObjectId(req.params.id)};
-  let result = await collection.findOne(query);
-
-  if (!result) res.send("Not found").status(404);
-  else res.send(result).status(200);
+  try {
+    let collection = await db.collection("employees");
+    let query = { _id: new ObjectId(req.params.id) };
+    let result = await collection.findOne(query);
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(404).json({ error: "Employee not found" });
+  }
 });
 
 // This section will help you create a new record.
 router.post("/", async (req, res) => {
-  const newEmployee = {
-    name: req.body.name,
-    phonenumber: req.body.phonenumber,
-    position: req.body.position,
-    email: req.body.email,
-    isVerified: req.body.isVerified,
-    status: req.body.status,
-    avatarUrl: req.body.avatarUrl,
-    salary: req.body.salary,  // เพิ่มเขตข้อมูลเงินเดือน
-  };
-  const collection = await db.collection("employees");
-  const result = await collection.insertOne(newEmployee);
-  res.status(204).json(result);
+  try {
+    const newEmployee = await employee(req.body).save();
+    res.send(newEmployee)
+    res.status(201).json(result);
+  } catch (error) {
+    console.log(error)
+    res.status(500).send('Server Error')
+  }
+  
+  // const collection = await db.collection("employees");
+  // const result = await collection.insertOne(newEmployee);
+  
 });
 
 // This section will help you update a record by id.
 router.patch("/:id", async (req, res) => {
-  const query = { _id: new ObjectId(req.params.id) };
-  const updates = {
-    $set: {
-      name: req.body.name,
-      position: req.body.position,
-      salary: req.body.salary,
-    }
-  };
-
-  let collection = await db.collection("employees");
-  let result = await collection.updateOne(query, updates);
-  res.send(result).status(200);
+  try {
+    const id = { _id: new ObjectId(req.params.id) };
+    const updates = await employee.findOneAndUpdate({_id: id}, req.body,{new:true}).exec()
+    res.send(updates).status(200);
+  } catch (error) {
+    res.status(500).send('Server Error')
+  }
+  // let collection = await db.collection("employees");
+  // let result = await collection.updateOne(query, updates);
 });
 
 // This section will help you delete an employee
 router.delete("/:id", async (req, res) => {
   try {
     if (!ObjectId.isValid(req.params.id)) {
-      res.status(400).send("Invalid ObjectId");
-      return;
+      return res.status(400).json({ error: "Invalid ObjectId" });
     }
 
     const query = { _id: new ObjectId(req.params.id) };
@@ -67,13 +70,13 @@ router.delete("/:id", async (req, res) => {
     const result = await collection.deleteOne(query);
 
     if (result.deletedCount === 0) {
-      res.status(404).send("Employee not found");
-    } else {
-      res.status(200).send("Employee deleted");
+      return res.status(404).json({ error: "Employee not found" });
     }
+
+    return res.status(204).send("Employee deleted");
   } catch (error) {
     console.error("Error deleting employee:", error);
-    res.status(500).send("Internal Server Error");
+    return res.status(500).json({ error: "Internal Server Error" });
   }
 });
 

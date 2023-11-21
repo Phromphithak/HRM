@@ -11,8 +11,8 @@ const employeeSchema = new mongoose.Schema({
   avatarUrl:String,
   isVerified: Boolean,
   salary: Number,
-});
+},{timestamps:true});
 
-const Employee = mongoose.model('Employee', employeeSchema);
+const employee = mongoose.model('employee', employeeSchema);
 
-export default Employee;
+export default employee;

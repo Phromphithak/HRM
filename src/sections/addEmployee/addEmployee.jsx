@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useState } from 'react';
 
 import Box from '@mui/material/Box';
@@ -29,26 +30,31 @@ export default function AddEmployee() {
     avatarUrl: '',
     salary: 0,
   });
-
   const handleAddEmployee = async () => {
+    axios.defaults.baseURL = 'http://localhost:5050';
     try {
-      const response = await fetch('http://localhost:5050/employees', {
-        method: 'POST',
+      const response = await axios.post('/api/employees', employeeData, {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(employeeData),
       });
-
-      if (response.ok) {
+  
+      // Check if the status code indicates success (e.g., 2xx status codes)
+      if (response.status >= 200 && response.status < 300) {
+        // Successful response
         router.push('/user');
       } else {
-        // Handle errors here
+        // Handle errors based on the response data or status code
+        console.error('Error adding employee:', response.data);
+        // You might want to show an error message to the user
       }
     } catch (error) {
-      // Handle API request errors here
+      // Handle Axios request errors
+      console.error('Axios request error:', error);
+      // You might want to show an error message to the user
     }
   };
+  
 
   return (
     <Box
@@ -122,7 +128,7 @@ export default function AddEmployee() {
               label="Verified"
               value={employeeData.isVerified}
               onChange={(e) =>
-                setEmployeeData({ ...employeeData, isVerified: e.target.value })
+                setEmployeeData({ ...employeeData, isVerified: e.target.checked })
               }
             />
             <TextField

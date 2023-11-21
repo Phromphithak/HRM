@@ -10,8 +10,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use("/record", records);
-app.use("/employees",employees);
+app.use("/api/record", records);
+app.use("/api/employees", employees);
 
 // start the Express server
 app.listen(PORT, () => {

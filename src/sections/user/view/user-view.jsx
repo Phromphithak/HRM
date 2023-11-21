@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useState, useEffect } from 'react';
 
 import Card from '@mui/material/Card';
@@ -33,23 +34,17 @@ export default function UserPage() {
 
   // สร้าง state สำหรับเก็บข้อมูลผู้ใช้
   const [users, setUsers] = useState([]);
+  axios.defaults.baseURL = `http://localhost:5050`
 
   // ใช้ useEffect เพื่อดึงข้อมูลผู้ใช้จากแหล่งข้อมูล (API หรือฐานข้อมูล)
   useEffect(() => {
     // สร้างฟังก์ชัน fetchData สำหรับดึงข้อมูลผู้ใช้
     const fetchData = async () => {
       try {
-        // ดึงข้อมูลจาก API หรือแหล่งข้อมูลอื่นๆ
-        const response = await fetch('http://localhost:5050/employees');
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const jsonText = await response.text();
-        const data = JSON.parse(jsonText);
-        // อัปเดต state โดยใช้ข้อมูลที่ดึงมา
+        const { data } = await axios.get(`/api/employees`);
         setUsers(data);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error('Error fetching data:', error.message);
       }
     };
 
@@ -157,8 +152,8 @@ export default function UserPage() {
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row) => (
                     <UserTableRow
-                      key={row.id}
-                      name={row.name} // เปลี่ยนเป็น name
+                      id={row._id} // Use row.key as the key prop
+                      name={row.name}
                       position={row.position}
                       status={row.status}
                       email={row.email}
@@ -166,10 +161,9 @@ export default function UserPage() {
                       phonenumber={row.phonenumber}
                       avatarUrl={row.avatarUrl}
                       isVerified={row.isVerified}
-                      selected={selected.indexOf(row.name) !== -1} // เปลี่ยนเป็น name
-                      handleClick={(event) => handleClick(event, row.name)} // เปลี่ยนเป็น name
+                      selected={selected.indexOf(row.name) !== -1}
+                      handleClick={(event) => handleClick(event, row.name)}
                     />
-
                   ))}
                 <TableEmptyRows
                   height={77}
