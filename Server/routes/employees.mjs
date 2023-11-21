@@ -2,7 +2,6 @@
 import express from "express";
 import db from "../db/conn.mjs";
 import { ObjectId } from "mongodb";
-import employee from '../db/models/employee.mjs'
 
 const router = express.Router();
 
