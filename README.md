@@ -2,7 +2,12 @@
 
 ![Project Image](path/to/project-image.png)
 
-> บทคัดย่อสั้น ๆ เกี่ยวกับโปรเจค
+> Need update mutiple checkbox delete
+> Need update Editpage
+> Need salary cal
+> Need check-in/out day
+> Need Auntcation
+> and More
 
 ## สารบัญ
 
