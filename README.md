@@ -1,46 +1,66 @@
-## Minimal [(Free version)](https://minimal-kit-react.vercel.app/)
+# Human Resource Management System
 
-![license](https://img.shields.io/badge/license-MIT-blue.svg)
+![Project Image](path/to/project-image.png)
 
-> Free React Admin Dashboard made with Material-UI components and React.
+> บทคัดย่อสั้น ๆ เกี่ยวกับโปรเจค
 
-![preview](public/assets/preview.jpg)
+## สารบัญ
 
-## Demo
+- [Human Resource Management System](#human-resource-management-system)
+  - [สารบัญ](#สารบัญ)
+  - [คำอธิบายโปรเจค](#คำอธิบายโปรเจค)
+  - [คุณสมบัติหลัก](#คุณสมบัติหลัก)
+  - [การติดตั้ง](#การติดตั้ง)
+  - [การใช้งาน](#การใช้งาน)
+  - [การพัฒนา](#การพัฒนา)
+  - [ทีม](#ทีม)
+  - [ข้อกำหนด](#ข้อกำหนด)
+  - [ขอบคุณ](#ขอบคุณ)
+  - [ไลเซนส์](#ไลเซนส์)
 
-- [Dashboard Page](https://minimal-kit-react.vercel.app/)
-- [Users Page](https://minimal-kit-react.vercel.app/user)
-- [Products Page](https://minimal-kit-react.vercel.app/products)
-- [Blog Page](https://minimal-kit-react.vercel.app/blog)
-- [Login Page](https://minimal-kit-react.vercel.app/login)
-- [Not Found Page](https://minimal-kit-react.vercel.app/404)
+## คำอธิบายโปรเจค
 
-## Quick start
+โปรเจค Human Resource Management System เป็นระบบที่ถูกออกแบบมาเพื่อจัดการข้อมูลพนักงานและการทำงานที่เกี่ยวข้องในบริษัทหรือองค์กร โปรเจคนี้มุ่งเน้นการจัดการข้อมูลพนักงาน การทำงานกับข้อมูลเกี่ยวกับตำแหน่งงาน การลา และอื่น ๆ ที่เกี่ยวข้องกับการบริหารทรัพยากรบุคคลขององค์กร
 
-- [Download from Github](https://github.com/minimal-ui-kit/material-kit-react/archive/refs/heads/main.zip) or clone the repo : `git clone https://github.com/minimal-ui-kit/material-kit-react.git`
-- Recommended `Node.js v18.x`.
-- **Install:** `yarn install`
-- **Start:** `yarn dev`
-- **Build:** `yarn build`
+## คุณสมบัติหลัก
 
-## Upgrade to PRO Version
+- **จัดการข้อมูลพนักงาน:** เพิ่ม แก้ไข และลบข้อมูลพนักงาน
+- **จัดการตำแหน่งงาน:** เพิ่ม แก้ไข และลบข้อมูลตำแหน่งงาน
+- **การลาและการลาอนุมัติ:** บันทึกการลาและตรวจสอบสถานะการลา
+- **ระบบออนไลน์:** ทำงานบนเว็บไซต์
 
-| Minimal Free     | [Minimal Pro](https://material-ui.com/store/items/minimal-dashboard/) |
-| :--------------- | :-------------------------------------------------------------------- |
-| **6** Demo Pages | **70+** Demo Pages                                                    |
-| -                | Authentication with **Amplify**, **Auth0**, **JWT** and **Firebase**  |
-| -                | [+More components](https://minimals.cc/components)                    |
-| -                | Dark & light mode                                                     |
-| -                | Next.js version                                                       |
-| -                | TypeScript version (Standard Plus and Extended license)               |
-| -                | Design Figma File (Standard Plus and Extended license)                |
-| -                | Complete Users Flows                                                  |
-| -                | Learn more: [Package & License](https://docs.minimals.cc/package)     |
+## การติดตั้ง
 
-## License
+1. Clone โปรเจค: `git clone https://github.com/your-username/your-project.git`
+2. เข้าไปในไดเร็กทอรี: `cd your-project`
+3. ติดตั้ง dependencies: `npm install`
+4. รันโปรเจค: `npm start`
 
-Distributed under the MIT License. See [LICENSE](https://github.com/minimal-ui-kit/minimal.free/blob/main/LICENSE.md) for more information.
+## การใช้งาน
 
-## Contact us
+1. เข้าสู่ระบบ
+2. จัดการข้อมูลพนักงาน
+3. จัดการตำแหน่งงาน
+4. บันทึกการลา
+5. ตรวจสอบสถานะการลา
+6. ...
 
-Email: support@minimals.cc
+## การพัฒนา
+
+- คุณสามารถ fork โปรเจคนี้และส่ง pull request มาเพื่อมContributions ได้
+
+## ทีม
+
+- ชื่อทีมหรือนักศึกษาที่ทำโปรเจคนี้
+
+## ข้อกำหนด
+
+- โปรเจคนี้เป็น Open Source และสามารถนำไปใช้งานได้ตามเงื่อนไขในไฟล์ LICENSE
+
+## ขอบคุณ
+
+- หากมีบางส่วนที่ใช้ library หรือโค้ดจากที่อื่น ควรให้เครดิตและขออนุญาตตามที่กำหนด
+
+## ไลเซนส์
+
+- ใส่ประวัติการเปลี่ยนแปลงของโค้ด, รายละเอียดเพิ่มเติม, เครดิต, และอื่น ๆ ที่ควรรู้
