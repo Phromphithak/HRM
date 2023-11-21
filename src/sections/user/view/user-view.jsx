@@ -152,7 +152,8 @@ export default function UserPage() {
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row) => (
                     <UserTableRow
-                      id={row._id} // Use row.key as the key prop
+                      key={row._id}  // เพิ่ม key prop ในนี้
+                      id={row._id}
                       name={row.name}
                       position={row.position}
                       status={row.status}
@@ -171,6 +172,7 @@ export default function UserPage() {
                 />
                 {notFound && <TableNoData query={filterName} />}
               </TableBody>
+
             </Table>
           </TableContainer>
         </Scrollbar>
