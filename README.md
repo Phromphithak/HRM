@@ -56,6 +56,11 @@
 ## การพัฒนา
 
 - คุณสามารถ fork โปรเจคนี้และส่ง pull request มาเพิ่ม Contributions ได้
+- Need update mutiple checkbox delete
+- Need update Editpage
+- Need salary cal
+- Need check-in/out day
+- Auntcation and More
 
 ## ทีม
 
