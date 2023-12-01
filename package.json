@@ -5,7 +5,11 @@
   "version": "1.8.0",
   "private": false,
   "scripts": {
-    "server": "cd Server && node server.mjs",
+    "server-install":"cd Server && npm install",
+    "start-server": "cd Server && node server.mjs",
+    "install-cilent": "npm install",
+    "build-cilent":"npm build",
+    "start-cilent":"npm run start",
     "dev": "vite",
     "start": "vite preview",
     "build": "vite build",
