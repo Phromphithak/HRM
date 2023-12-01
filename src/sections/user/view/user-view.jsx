@@ -34,7 +34,7 @@ export default function UserPage() {
 
   // สร้าง state สำหรับเก็บข้อมูลผู้ใช้
   const [users, setUsers] = useState([]);
-  axios.defaults.baseURL = `lixhrm.vercel.app`
+  axios.defaults.baseURL = `https://hrm-xil-lin.vercel.app`
 
   // ใช้ useEffect เพื่อดึงข้อมูลผู้ใช้จากแหล่งข้อมูล (API หรือฐานข้อมูล)
   useEffect(() => {

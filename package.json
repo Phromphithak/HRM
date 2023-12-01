@@ -5,7 +5,7 @@
   "version": "1.8.0",
   "private": false,
   "scripts": {
-    "serve": "node Server/server.mjs",
+    "server": "cd Server && node server.mjs",
     "dev": "vite",
     "start": "vite preview",
     "build": "vite build",
