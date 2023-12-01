@@ -10,7 +10,8 @@ export const LoginPage = lazy(() => import('src/pages/login'));
 export const ProductsPage = lazy(() => import('src/pages/products'));
 export const Page404 = lazy(() => import('src/pages/page-not-found'));
 export const RegisterPage = lazy(() => import('src/pages/register'));
-export const AddEmployeePage = lazy(() => import('src/pages/addemployee'))
+export const AddEmployeePage = lazy(() => import('src/pages/addemployee'));
+export const EditEmployeePage = lazy(()=>import('src/pages/editemployee') );
 
 // ----------------------------------------------------------------------
 
@@ -50,6 +51,10 @@ export default function Router() {
     {
       path: '*',
       element: <Navigate to="/404" replace />,
+    },
+    {
+      path: 'edit-employee/:employeeId',
+      element:<EditEmployeePage/>,
     },
   ]);
 

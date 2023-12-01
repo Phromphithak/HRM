@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
 
 import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
@@ -33,6 +34,7 @@ export default function UserTableRow({
   status,
   salary,
 }) {
+  const Navigate = useNavigate();
   const [open, setOpen] = useState(null);
   const router = useRouter();
 
@@ -64,6 +66,10 @@ export default function UserTableRow({
 
   const handleCloseMenu = () => {
     setOpen(null);
+  };
+  const handleEditClick = () => {
+    handleCloseMenu();
+    Navigate(`/edit-employee/${id}`);
   };
 
   return (
@@ -110,7 +116,7 @@ export default function UserTableRow({
           sx: { width: 140 },
         }}
       >
-        <MenuItem onClick={handleCloseMenu}>
+        <MenuItem onClick={handleEditClick}>
           <Iconify icon="eva:edit-fill" sx={{ mr: 2 }} />
           Edit
         </MenuItem>
