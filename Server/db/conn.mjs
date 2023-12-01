@@ -1,8 +1,8 @@
 import { MongoClient } from "mongodb";
 
-const connectionString = process.env.MONGODB_URI || "";
+const uri = process.env.ATLAS_URI || "";
 
-const client = new MongoClient(connectionString);
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 let conn;
 try {
