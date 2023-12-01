@@ -1,7 +1,6 @@
 import { MongoClient } from "mongodb";
 
 const uri = process.env.MONGODB_URI || "";
-
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 async function connectToDatabase() {
@@ -16,8 +15,17 @@ async function connectToDatabase() {
   }
 }
 
-const conn = await connectToDatabase();
-const db = conn.db("hrmdata");
+let conn;
+try {
+  conn = await connectToDatabase();
+} catch (e) {
+  console.error(e);
+  // ในกรณีที่มีข้อผิดพลาด, คุณสามารถเลือกจะทำอะไรต่อไปได้ตามที่คุณต้องการ
+  // เช่น การล็อกข้อผิดพลาด, การทำงานแบบ graceful shutdown, หรือการ throw ต่อ
+  process.exit(1); // จบการทำงานทั้งโปรแกรม
+}
+
+let db = conn.db("hrmdata");
 
 // ทำงานที่ต้องการกับฐานข้อมูล
 
