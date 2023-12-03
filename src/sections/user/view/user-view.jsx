@@ -34,25 +34,22 @@ export default function UserPage() {
 
   // สร้าง state สำหรับเก็บข้อมูลผู้ใช้
   const [users, setUsers] = useState([]);
-  const baseURL = process.env.NODE_ENV === 'production' ? 'https://hrm-xil-lin.vercel.app' : 'http://localhost:5050';
+  const baseURL = process.env.NODE_ENV === 'http://hrmbackend-x4ea.onrender.com';
   axios.defaults.baseURL = baseURL;
 
-  // ใช้ useEffect เพื่อดึงข้อมูลผู้ใช้จากแหล่งข้อมูล (API หรือฐานข้อมูล)
   useEffect(() => {
-    // สร้างฟังก์ชัน fetchData สำหรับดึงข้อมูลผู้ใช้
     const fetchData = async () => {
       try {
         const { data } = await axios.get(`/api/employees`);
+        console.log('Fetched Users:', data);  // Log the fetched data
         setUsers(data);
       } catch (error) {
         console.error('Error fetching data:', error.message);
       }
     };
-
-    // เรียกใช้ฟังก์ชัน fetchData เมื่อคอมโพเนนต์ถูกโหลด (componentDidMount)
+  
     fetchData();
-  }, []); // การส่งอาเรย์ว่างคือให้ทำงานเมื่อคอมโพเนนต์ถูกโหลดครั้งแรก
-
+  }, []);
 
   const handleSort = (event, id) => {
     const isAsc = orderBy === id && order === 'asc';
