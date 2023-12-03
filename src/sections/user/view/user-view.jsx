@@ -34,13 +34,15 @@ export default function UserPage() {
 
   // สร้าง state สำหรับเก็บข้อมูลผู้ใช้
   const [users, setUsers] = useState([]);
-  const baseURL = process.env.NODE_ENV === 'https://hrmbackend-x4ea.onrender.com';
+  const baseURL = process.env.NODE_ENV === 'development'
+    ? 'http://localhost:5050'  // Set your development API URL
+    : 'https://hrmbackend-x4ea.onrender.com';  // Set your production API URL
   axios.defaults.baseURL = baseURL;
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get(`/api/employees/`);
+        const { data } = await axios.get(`https://hrmbackend-x4ea.onrender.com/api/employees/`);
         console.log('Fetched Users:', data);  // Log the fetched data
         setUsers(data);
       } catch (error) {
