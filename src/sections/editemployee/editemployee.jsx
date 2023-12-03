@@ -45,7 +45,7 @@ export default function EditEmployeeView({ match }) { // Assuming you receive th
   useEffect(() => {
     // Fetch existing employee data based on the employee ID (employeeId)
     const fetchEmployeeData = async () => {
-      axios.defaults.baseURL = 'http://localhost:5050';
+      axios.defaults.baseURL = 'https://hrmbackend-x4ea.onrender.com';
       try {
         const response = await axios.get(`/api/employees/${employeeId}`);
   
@@ -60,7 +60,7 @@ export default function EditEmployeeView({ match }) { // Assuming you receive th
   }, [employeeId]);
 
   const handleEditEmployee = async () => {
-    axios.defaults.baseURL = 'http://localhost:5050';
+    axios.defaults.baseURL = 'https://hrmbackend-x4ea.onrender.com';
     try {
       const response = await axios.put(`/api/employees/${match.params.employeeId}`, employeeData, {
         headers: {

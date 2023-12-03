@@ -31,7 +31,7 @@ export default function AddEmployee() {
     salary: 0,
   });
   const handleAddEmployee = async () => {
-    axios.defaults.baseURL = 'http://localhost:5050';
+    axios.defaults.baseURL = 'https://hrmbackend-x4ea.onrender.com';
     try {
       const response = await axios.post('/api/employees', employeeData, {
         headers: {
