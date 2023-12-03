@@ -34,7 +34,7 @@ export default function UserPage() {
 
   // สร้าง state สำหรับเก็บข้อมูลผู้ใช้
   const [users, setUsers] = useState([]);
-  const baseURL = process.env.NODE_ENV === 'http://hrmbackend-x4ea.onrender.com';
+  const baseURL = process.env.NODE_ENV === 'https://hrmbackend-x4ea.onrender.com';
   axios.defaults.baseURL = baseURL;
 
   useEffect(() => {
