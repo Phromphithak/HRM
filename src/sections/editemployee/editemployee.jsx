@@ -42,20 +42,19 @@ export default function EditEmployeeView({ match }) { // Assuming you receive th
     salary: 0,
   });
 
+  const { employeeId } = useParams();
+
   useEffect(() => {
-    // Fetch existing employee data based on the employee ID (employeeId)
     const fetchEmployeeData = async () => {
       axios.defaults.baseURL = 'https://hrmbackend-x4ea.onrender.com';
       try {
         const response = await axios.get(`/api/employees/${employeeId}`);
-  
-        // Set the existing employee data in the state
         setEmployeeData(response.data);
       } catch (error) {
         console.error('Error fetching employee data:', error);
       }
     };
-  
+
     fetchEmployeeData();
   }, [employeeId]);
 
