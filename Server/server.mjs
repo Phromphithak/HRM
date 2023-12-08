@@ -8,7 +8,7 @@ const PORT = 5050;
 const app = express();
 
 const corsOptions = {
-  origin: "https://vercel.com/xil-lins-projects/hrm/wkxpj666mwxnLwVkjBxbYyLVGPhH", // Remove the trailing slash
+  origin: "https://hrm-xil-lin.vercel.app/", // Remove the trailing slash
 }
 
 app.use(cors(corsOptions));
