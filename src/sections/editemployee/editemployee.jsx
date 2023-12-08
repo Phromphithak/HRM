@@ -45,11 +45,14 @@ export default function EditEmployeeView() {
   const handleEditEmployee = async () => {
     axios.defaults.baseURL = 'https://hrmbackend-x4ea.onrender.com';
     try {
-      const response = await axios.put(`/api/employees/${employeeId}`, employeeData, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      const response = await axios.put(
+        `/api/employees/${employeeId}`,
+        employeeData,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
 
       if (response.status >= 200 && response.status < 300) {
         navigate('/user');
@@ -132,9 +135,9 @@ export default function EditEmployeeView() {
             <TextField
               name="isVerified"
               label="Verified"
-              value={employeeData.isVerified}
+              value={employeeData.isVerified ? 'true' : 'false'}
               onChange={(e) =>
-                setEmployeeData({ ...employeeData, isVerified: e.target.checked })
+                setEmployeeData({ ...employeeData, isVerified: e.target.value === 'true' })
               }
             />
             <TextField
