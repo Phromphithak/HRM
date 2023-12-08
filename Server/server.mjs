@@ -11,7 +11,7 @@ const corsOptions = {
   origin: "https://hrm-xil-lin.vercel.app/", // frontend URI (ReactJS)
 }
 
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 
 app.use("/api/record", records);
