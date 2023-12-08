@@ -18,7 +18,7 @@ import Logo from 'src/components/logo';
 
 export default function EditEmployeeView() {
   const { employeeId } = useParams();
-  const navigate = useNavigate();  // Use useNavigate instead of useRouter
+  const history = useHistory();  // Use useNavigate instead of useRouter
   const [employeeData, setEmployeeData] = useState({
     name: '',
     email: '',
@@ -53,7 +53,7 @@ export default function EditEmployeeView() {
       });
 
       if (response.status >= 200 && response.status < 300) {
-        navigate('/user');  // Use navigate instead of router.push
+        history('/user');
       } else {
         console.error('Error editing employee:', response.data);
       }
