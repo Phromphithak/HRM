@@ -47,7 +47,7 @@ router.post("/", async (req, res) => {
 
 
 // This section will help you update a record by id.
-router.patch("/:id", async (req, res) => {
+router.put("/:id", async (req, res) => {
   const query = { _id: new ObjectId(req.params.id) };
   const updates =  {
     $set: {
