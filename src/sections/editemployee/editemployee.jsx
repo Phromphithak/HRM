@@ -42,8 +42,6 @@ export default function EditEmployeeView({ match }) { // Assuming you receive th
     salary: 0,
   });
 
-  const { employeeId } = useParams();
-
   useEffect(() => {
     const fetchEmployeeData = async () => {
       axios.defaults.baseURL = 'https://hrmbackend-x4ea.onrender.com';
