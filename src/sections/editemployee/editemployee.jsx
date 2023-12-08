@@ -12,14 +12,13 @@ import Typography from '@mui/material/Typography';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { alpha, useTheme } from '@mui/material/styles';
 
-import { useRouter } from 'src/routes/hooks';
-
 import { bgGradient } from 'src/theme/css';
 
 import Logo from 'src/components/logo';
 
 export default function EditEmployeeView() {
   const { employeeId } = useParams();
+  const navigate = useNavigate();  // Use useNavigate instead of useRouter
   const [employeeData, setEmployeeData] = useState({
     name: '',
     email: '',
@@ -54,7 +53,7 @@ export default function EditEmployeeView() {
       });
 
       if (response.status >= 200 && response.status < 300) {
-        router.push('/user');
+        navigate('/user');  // Use navigate instead of router.push
       } else {
         console.error('Error editing employee:', response.data);
       }
@@ -62,6 +61,8 @@ export default function EditEmployeeView() {
       console.error('Axios request error:', error);
     }
   };
+
+  const theme = useTheme();
   return (
     <Box
       sx={{
