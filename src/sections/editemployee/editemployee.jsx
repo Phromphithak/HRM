@@ -18,19 +18,8 @@ import { bgGradient } from 'src/theme/css';
 
 import Logo from 'src/components/logo';
 
-export default function EditEmployeeView({ match }) { // Assuming you receive the employee ID as a route parameter
-  
-  EditEmployeeView.propTypes = {
-    match: PropTypes.shape({
-      params: PropTypes.shape({
-        employeeId: PropTypes.string.isRequired,
-      }).isRequired,
-    }).isRequired,
-  };
+export default function EditEmployeeView() {
   const { employeeId } = useParams();
-  const theme = useTheme();
-  const router = useRouter();
-
   const [employeeData, setEmployeeData] = useState({
     name: '',
     email: '',
@@ -44,7 +33,6 @@ export default function EditEmployeeView({ match }) { // Assuming you receive th
 
   useEffect(() => {
     const fetchEmployeeData = async () => {
-      axios.defaults.baseURL = 'https://hrmbackend-x4ea.onrender.com';
       try {
         const response = await axios.get(`/api/employees/${employeeId}`);
         setEmployeeData(response.data);
@@ -66,7 +54,6 @@ export default function EditEmployeeView({ match }) { // Assuming you receive th
       });
 
       if (response.status >= 200 && response.status < 300) {
-        // Successful response
         router.push('/user');
       } else {
         console.error('Error editing employee:', response.data);
