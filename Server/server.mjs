@@ -8,7 +8,7 @@ const PORT = 5050;
 const app = express();
 
 const corsOptions = {
-  origin: "YOUR_FRONTEND_URL", // frontend URI (ReactJS)
+  origin: "https://hrm-xil-lin.vercel.app/", // frontend URI (ReactJS)
 }
 
 app.use(cors());
