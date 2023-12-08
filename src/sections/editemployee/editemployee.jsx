@@ -62,7 +62,7 @@ export default function EditEmployeeView({ match }) { // Assuming you receive th
   const handleEditEmployee = async () => {
     axios.defaults.baseURL = 'https://hrmbackend-x4ea.onrender.com';
     try {
-      const response = await axios.put(`/api/employees/${match.params.employeeId}`, employeeData, {
+      const response = await axios.put(`/api/employees/${id}`, employeeData, {
         headers: {
           'Content-Type': 'application/json',
         },
