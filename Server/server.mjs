@@ -1,17 +1,17 @@
 import express from "express";
 import cors from "cors";
-import "./loadEnvironment.mjs"
+import "./loadEnvironment.mjs";
 import records from "./routes/record.mjs";
-import employees from "./routes/employees.mjs"
+import employees from "./routes/employees.mjs";
 
 const PORT = 5050;
 const app = express();
 
 const corsOptions = {
-  origin: "https://hrm-xil-lin.vercel.app/", // frontend URI (ReactJS)
+  origin: "https://hrm-xil-lin.vercel.app", // Remove the trailing slash
 }
 
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 
 app.use("/api/record", records);

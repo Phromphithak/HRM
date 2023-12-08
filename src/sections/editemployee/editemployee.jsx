@@ -1,7 +1,6 @@
 import axios from 'axios';
-import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams,useNavigate } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -18,7 +17,7 @@ import Logo from 'src/components/logo';
 
 export default function EditEmployeeView() {
   const { employeeId } = useParams();
-  const history = useHistory();  // Use useNavigate instead of useRouter
+  const navigate = useNavigate();  // Use useNavigate instead of useRouter
   const [employeeData, setEmployeeData] = useState({
     name: '',
     email: '',
@@ -53,7 +52,7 @@ export default function EditEmployeeView() {
       });
 
       if (response.status >= 200 && response.status < 300) {
-        history('/user');
+        navigate('/user');
       } else {
         console.error('Error editing employee:', response.data);
       }
