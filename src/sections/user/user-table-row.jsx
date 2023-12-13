@@ -92,11 +92,6 @@ export default function UserTableRow({
         <TableCell>{position}</TableCell>
         <TableCell>{salary}</TableCell>
         <TableCell>{phonenumber}</TableCell>
-        <TableCell>
-          <Label color={(status === 'banned' && 'error') || 'success'}>
-            {status}
-          </Label>
-        </TableCell>
         <TableCell align="right">
           <IconButton onClick={handleOpenMenu}>
             <Iconify icon="eva:more-vertical-fill" />
