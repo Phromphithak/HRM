@@ -142,7 +142,6 @@ export default function UserPage() {
                   { id: 'position', label: 'Position' },
                   { id: 'salary', label: 'Salary' },
                   { id: 'phonenumber', label: 'Phonenumber' },
-                  { id: 'status', label: 'Status' },
                   { id: 'isVerified', label: 'Verified', align: 'center' },
 
                 ]}
