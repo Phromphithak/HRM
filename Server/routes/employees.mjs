@@ -32,7 +32,6 @@ router.post("/", async (req, res) => {
       email: req.body.email,
       position: req.body.position,
       avatarUrl: req.body.avatarUrl,
-      isVerified: req.body.isVerified,
       salary: req.body.salary,
     };
 
@@ -57,7 +56,6 @@ router.put("/:id", async (req, res) => {
       email: req.body.email,
       position: req.body.position,
       avatarUrl: req.body.avatarUrl,
-      isVerified: req.body.isVerified,
       salary: req.body.salary,
     }
   };

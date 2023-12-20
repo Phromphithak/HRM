@@ -1,13 +1,20 @@
 import axios from 'axios';
+// ----sweetalert2
+import Swal from 'sweetalert2'
 import { useState } from 'react';
+import withReactContent from 'sweetalert2-react-content'
 
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
+import Select from '@mui/material/Select';
 import Divider from '@mui/material/Divider';
+import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import InputLabel from '@mui/material/InputLabel';
 import LoadingButton from '@mui/lab/LoadingButton';
+import FormControl from '@mui/material/FormControl';
 import { alpha, useTheme } from '@mui/material/styles';
 
 import { useRouter } from 'src/routes/hooks';
@@ -24,17 +31,30 @@ export default function AddEmployee() {
     name: '',
     email: '',
     position: '',
-    phonenumber:'',
-    isVerified: false,
-    status: '',
+    phonenumber: '',
     avatarUrl: '',
     salary: 0,
   });
   const handleAddEmployee = async () => {
-    const baseURL = process.env.NODE_ENV === 'development'
-    ? 'http://localhost:5050'  // Set your development API URL
-    : 'https://hrmbackend-x4ea.onrender.com';  // Set your production API URL
-  axios.defaults.baseURL = baseURL;
+    // Check if the required fields are filled in
+    if (!employeeData.name || !employeeData.email || !employeeData.phonenumber) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'กรุณากรอกข้อมูลให้ครบ name, email, หรือ phonenumber',
+      });
+      return;
+    }
+  
+    // Rest of the code for submitting the form
+    const baseURL =
+      process.env.NODE_ENV === 'development'
+        ? 'http://localhost:5050'
+        : 'https://hrmbackend-x4ea.onrender.com';
+  
+    axios.defaults.baseURL = baseURL;
+    const MySwal = withReactContent(Swal);
+  
     try {
       const response = await axios.post('/api/employees', employeeData, {
         headers: {
@@ -42,14 +62,15 @@ export default function AddEmployee() {
         },
       });
   
-      // Check if the status code indicates success (e.g., 2xx status codes)
+      // Check for a successful response (2xx status codes)
       if (response.status >= 200 && response.status < 300) {
-        // Successful response
+        MySwal.fire({
+          icon: 'success',
+          title: 'Your work has been saved',
+          showConfirmButton: false,
+          timer: 1500,
+        });
         router.push('/user');
-      } else {
-        // Handle errors based on the response data or status code
-        console.error('Error adding employee:', response.data);
-        // You might want to show an error message to the user
       }
     } catch (error) {
       // Handle Axios request errors
@@ -58,7 +79,11 @@ export default function AddEmployee() {
     }
   };
   
-
+  const handleChange = (event) => {
+    setEmployeeData({ ...employeeData, position: event.target.value });
+  };
+  
+  
   return (
     <Box
       sx={{
@@ -89,12 +114,13 @@ export default function AddEmployee() {
 
           <Divider sx={{ my: 3 }}>
             <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-              OR
+              เพิ่มพนักงาน
             </Typography>
           </Divider>
 
           <Stack spacing={3}>
             <TextField
+              required
               name="name"
               label="Name"
               value={employeeData.name}
@@ -103,6 +129,7 @@ export default function AddEmployee() {
               }
             />
             <TextField
+              required
               name="email"
               label="Email"
               value={employeeData.email}
@@ -111,6 +138,7 @@ export default function AddEmployee() {
               }
             />
             <TextField
+              required
               name="phonenumber"
               label="Phonenumber"
               value={employeeData.phonenumber}
@@ -118,30 +146,25 @@ export default function AddEmployee() {
                 setEmployeeData({ ...employeeData, phonenumber: e.target.value })
               }
             />
-            <TextField
-              name="position"
-              label="Position"
-              value={employeeData.position}
-              onChange={(e) =>
-                setEmployeeData({ ...employeeData, position: e.target.value })
-              }
-            />
-            <TextField
-              name="isVerified"
-              label="Verified"
-              value={employeeData.isVerified}
-              onChange={(e) =>
-                setEmployeeData({ ...employeeData, isVerified: e.target.checked })
-              }
-            />
-            <TextField
-              name="status"
-              label="Status"
-              value={employeeData.status}
-              onChange={(e) =>
-                setEmployeeData({ ...employeeData, status: e.target.value })
-              }
-            />
+            <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label">Position</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={employeeData.position}
+                label="Position"
+                onChange={handleChange}
+              >
+                <MenuItem value="Programmer">Programmer</MenuItem>
+                <MenuItem value="Senior Programmer">Senior Programmer</MenuItem>
+                <MenuItem value="System Analyst">System Analyst</MenuItem>
+                <MenuItem value="System Engineer">System Engineer</MenuItem>
+                <MenuItem value="Tester">Tester</MenuItem>
+                <MenuItem value="Project Manager">Project Manager</MenuItem>
+                <MenuItem value="IT Support/Help Desk/Administrator">IT Support/Help Desk/Administrator</MenuItem>
+
+              </Select>
+            </FormControl>
             <TextField
               name="avatarUrl"
               label="Avatar URL"
@@ -151,6 +174,7 @@ export default function AddEmployee() {
               }
             />
             <TextField
+              required
               name="salary"
               label="Salary"
               type="number"
@@ -160,18 +184,18 @@ export default function AddEmployee() {
               }
             />
             <LoadingButton
-            fullWidth
-            size="large"
-            type="submit"
-            variant="contained"
-            color="inherit"
-            onClick={handleAddEmployee}
-          >
-            Save
-          </LoadingButton>
+              fullWidth
+              size="large"
+              type="submit"
+              variant="contained"
+              color="inherit"
+              onClick={handleAddEmployee}
+            >
+              Save
+            </LoadingButton>
           </Stack>
 
-          
+
         </Card>
       </Stack>
     </Box>

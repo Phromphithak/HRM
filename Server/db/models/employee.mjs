@@ -9,7 +9,6 @@ const employeeSchema = new mongoose.Schema({
   email: String,
   position: String,
   avatarUrl:String,
-  isVerified: Boolean,
   salary: Number,
 },{timestamps:true});
 
