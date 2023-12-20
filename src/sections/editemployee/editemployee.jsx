@@ -115,11 +115,11 @@ export default function EditEmployeeView() {
             maxWidth: 420,
           }}
         >
-          <Typography variant="h4">Add Employee</Typography>
+          <Typography variant="h4">Edit Employee</Typography>
 
           <Divider sx={{ my: 3 }}>
             <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-              เพิ่มพนักงาน
+              แก้ไขข้อมูลพนักงาน
             </Typography>
           </Divider>
 
