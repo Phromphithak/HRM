@@ -33,7 +33,10 @@ export default function RegisterView() {
 
 
   const handleRegister = async () => {
-    axios.defaults.baseURL = 'http://localhost:5050';
+    const baseURL = process.env.NODE_ENV === 'development'
+    ? 'http://localhost:5050'  // Set your development API URL
+    : 'https://hrmbackend-x4ea.onrender.com';  // Set your production API URL
+    axios.defaults.baseURL = baseURL;
     try {
       const response = await axios.post('/api/users', {
         email,
@@ -47,7 +50,7 @@ export default function RegisterView() {
   
       if (response.status === 201) { // Check for the correct HTTP status code
         // User registration successful
-        router.push('/dashboard');
+        router.push('/');
       } else {
         // Handle errors or unsuccessful registration
         console.log(response.status);

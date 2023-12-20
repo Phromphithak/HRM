@@ -43,7 +43,10 @@ export default function EditEmployeeView() {
   }, [employeeId]);
 
   const handleEditEmployee = async () => {
-    axios.defaults.baseURL = 'https://hrmbackend-x4ea.onrender.com';
+    const baseURL = process.env.NODE_ENV === 'development'
+    ? 'http://localhost:5050'  // Set your development API URL
+    : 'https://hrmbackend-x4ea.onrender.com';  // Set your production API URL
+  axios.defaults.baseURL = baseURL;
     try {
       const response = await axios.put(
         `/api/employees/${employeeId}`,
