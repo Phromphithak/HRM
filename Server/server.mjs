@@ -9,7 +9,7 @@ const PORT = 5050;
 const app = express();
 
 const corsOptions = {
-  origin: ["http://localhost:3030", "https://hrm-xil-lin.vercel.app"],
+  origin: ["http://localhost:3030", "https://hrm-xil-lin.vercel.app" ,"https://hrm-xil-lins-projects.vercel.app"],
 };
 
 app.use(cors(corsOptions));
