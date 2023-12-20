@@ -15,7 +15,6 @@ import IconButton from '@mui/material/IconButton';
 
 import { useRouter } from 'src/routes/hooks';
 
-import Label from 'src/components/label';
 import Iconify from 'src/components/iconify';
 
 
@@ -26,12 +25,10 @@ export default function UserTableRow({
   id, // Assuming id is the MongoDB id
   avatarUrl,
   handleClick,
-  isVerified,
   name,
   email,
   position,
   selected,
-  status,
   salary,
 }) {
   const Navigate = useNavigate();
@@ -131,11 +128,9 @@ UserTableRow.propTypes = {
   phonenumber: PropTypes.any,
   avatarUrl: PropTypes.any,
   handleClick: PropTypes.func,
-  isVerified: PropTypes.any,
   name: PropTypes.any,
   email: PropTypes.any,
   position: PropTypes.any,
   selected: PropTypes.any,
-  status: PropTypes.string,
   salary: PropTypes.any,
 };

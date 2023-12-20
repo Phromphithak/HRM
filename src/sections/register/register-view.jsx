@@ -1,3 +1,5 @@
+// register-view
+import axios from 'axios';
 import { useState } from 'react';
 
 import Box from '@mui/material/Box';
@@ -26,28 +28,35 @@ export default function RegisterView() {
 
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
+
   const handleRegister = async () => {
+    axios.defaults.baseURL = 'http://localhost:5050';
     try {
-      const response = await fetch('http://localhost:5050/record', {
-        method: 'POST',
+      const response = await axios.post('/api/users', {
+        email,
+        username,
+        password,
+      }, {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password }),
       });
-
-      if (response.ok) {
-        // สร้างบัญชีผู้ใช้สำเร็จ
-        router.push('/dashboard'); // เมื่อลงทะเบียนสำเร็จ ให้เปลี่ยนเส้นทางไปยังหน้า Dashboard หรือหน้าที่คุณต้องการ
+  
+      if (response.status === 201) { // Check for the correct HTTP status code
+        // User registration successful
+        router.push('/dashboard');
       } else {
-        // มีข้อผิดพลาดในการสร้างบัญชีผู้ใช้
+        // Handle errors or unsuccessful registration
+        console.log(response.status);
       }
     } catch (error) {
-      // มีข้อผิดพลาดในการส่งคำขอ API
+      // Handle API request error
     }
   };
+  
 
   return (
     <Box
@@ -129,7 +138,12 @@ export default function RegisterView() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
-
+            <TextField
+              name="username"
+              label="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
             <TextField
               name="password"
               label="Password"
@@ -151,7 +165,6 @@ export default function RegisterView() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-          </Stack>
 
           <LoadingButton
             fullWidth
@@ -163,6 +176,9 @@ export default function RegisterView() {
           >
             Register
           </LoadingButton>
+          </Stack>
+
+
         </Card>
       </Stack>
     </Box>

@@ -1,33 +1,20 @@
-// ใช้ `import` แทน `require` ในโมดูล ES
-import dotenv from 'dotenv';
-dotenv.config({ path: 'config.env' });
+import mongoose from "mongoose";
 
-import { MongoClient } from "mongodb";
+const connectionString = "mongodb+srv://LIX:lP2cvkJvHQWK4F4H@hrmdata.z5igopj.mongodb.net/?retryWrites=true&w=majority";
 
-const connectionString = process.env.ATLAS_URI || "";
-const client = new MongoClient(connectionString);
+// Update the connection options
+const mongooseOptions = {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+};
 
-async function connectToDatabase() {
-  try {
-    console.log("Connecting to MongoDB Atlas...");
-    const conn = await client.connect();
-    console.log("Connected to MongoDB Atlas!");
-    return conn;
-  } catch (e) {
-    console.error("Error connecting to MongoDB Atlas:", e);
-    throw e;
-  }
-}
+mongoose.connect(connectionString, mongooseOptions);
 
-let conn;
-try {
-  conn = await connectToDatabase();
-} catch (e) {
-  console.error(e);
-  // ทำการจัดการข้อผิดพลาดตามที่คุณต้องการ
-  throw e;
-}
+const db = mongoose.connection;
 
-let db = conn.db("hrmdata");
+db.on("error", console.error.bind(console, "MongoDB connection error:"));
+db.once("open", () => {
+  console.log("Connected to MongoDB Atlas!");
+});
 
 export default db;
