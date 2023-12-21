@@ -34,7 +34,8 @@ router.post("/register", async (req, res) => {
     const form = {
       username: req.body.username,
       email: req.body.email,
-      password: hashedPassword, // Use the hashed password
+      password: hashedPassword,
+      role : "user",
     };
 
     const collection = await db.collection("users");
