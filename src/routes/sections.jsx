@@ -12,6 +12,7 @@ export const Page404 = lazy(() => import('src/pages/page-not-found'));
 export const RegisterPage = lazy(() => import('src/pages/register'));
 export const AddEmployeePage = lazy(() => import('src/pages/addemployee'));
 export const EditEmployeePage = lazy(()=>import('src/pages/editemployee') );
+export const PayrollPage = lazy(()=> import('src/pages/payroll'))
 
 // ----------------------------------------------------------------------
 
@@ -30,6 +31,10 @@ export default function Router() {
         { path: 'user', element: <UserPage /> },
         { path: 'products', element: <ProductsPage /> },
         { path: 'blog', element: <BlogPage /> },
+        { path: 'addemployees', element: <AddEmployeePage/>},
+        { path: 'edit-employee/:employeeId', element: <EditEmployeePage/>},
+        { path: 'payroll', element: <PayrollPage/>},
+
       ],
     },
     {
@@ -55,6 +60,10 @@ export default function Router() {
     {
       path: 'edit-employee/:employeeId',
       element:<EditEmployeePage/>,
+    },
+    {
+      path: 'payroll',
+      element:<PayrollPage/>,
     },
   ]);
 

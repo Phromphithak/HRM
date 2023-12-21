@@ -17,6 +17,11 @@ const navConfig = [
     path: '/user',
     icon: icon('ic_user'),
   },
+  {
+    title: 'payroll system',
+    path: '/payroll',
+    icon: icon('save-money')
+  },
 ];
 
 export default navConfig;

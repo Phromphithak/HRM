@@ -1,17 +1,17 @@
 import { Helmet } from 'react-helmet-async';
 
-import { UserView } from 'src/sections/user/view';
+import { PayrollView } from 'src/sections/payroll/view';
 
 // ----------------------------------------------------------------------
 
-export default function UserPage() {
+export default function PayrollPage() {
   return (
     <>
       <Helmet>
-        <title> User | Minimal UI </title>
+        <title> Payroll | Minimal UI </title>
       </Helmet>
-
-      <UserView />
+        
+      <PayrollView />
     </>
   );
 }
