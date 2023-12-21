@@ -1,3 +1,5 @@
+import axios from 'axios';
+import Swal from 'sweetalert2';
 import { useState } from 'react';
 
 import Box from '@mui/material/Box';
@@ -28,15 +30,75 @@ export default function LoginView() {
   const router = useRouter();
 
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleClick = () => {
-    router.push('/');
+    // You can handle login logic here
+    // Example: Make an API call to authenticate the user
+    handleLogin();
+  };
+
+  const handleLogin = async () => {
+    const baseURL =
+      process.env.NODE_ENV === 'development'
+        ? 'http://localhost:5050'
+        : 'https://hrmbackend-x4ea.onrender.com';
+    axios.defaults.baseURL = baseURL;
+
+    try {
+      const response = await axios.post(
+        '/api/users/login', // Adjust the route endpoint
+        {
+          email,
+          password,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        // Login successful
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: 'Login successful',
+        }).then(() => {
+          // Redirect or perform any other action after successful login
+          router.push('/');
+        });
+      } else {
+        // Handle errors or unsuccessful login
+        console.log(response.status);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Invalid credentials',
+        });
+      }
+    } catch (error) {
+      // Handle API request error
+      console.error(error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Error during login',
+      });
+    }
   };
 
   const renderForm = (
     <>
       <Stack spacing={3}>
-        <TextField name="email" label="Email address" />
+        <TextField
+          name="email"
+          label="Email address"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
 
         <TextField
           name="password"
@@ -51,6 +113,8 @@ export default function LoginView() {
               </InputAdornment>
             ),
           }}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
         />
       </Stack>
 

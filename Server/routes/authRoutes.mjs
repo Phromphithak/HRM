@@ -19,7 +19,7 @@ router.get("/", async (req, res) => {
 });
 
 // Register Route
-router.post("/", async (req, res) => {
+router.post("/register", async (req, res) => {
   try {
     // Hash the password
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
@@ -48,7 +48,7 @@ router.post("/", async (req, res) => {
 });
 
 // Login Route
-router.post("/", async (req, res) => {
+router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
 

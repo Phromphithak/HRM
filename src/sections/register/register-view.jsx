@@ -1,5 +1,6 @@
 // register-view
 import axios from 'axios';
+import Swal from 'sweetalert2';
 import { useState } from 'react';
 
 import Box from '@mui/material/Box';
@@ -33,33 +34,58 @@ export default function RegisterView() {
 
 
   const handleRegister = async () => {
-    const baseURL = process.env.NODE_ENV === 'development'
-    ? 'http://localhost:5050'  // Set your development API URL
-    : 'https://hrmbackend-x4ea.onrender.com';  // Set your production API URL
+    const baseURL =
+      process.env.NODE_ENV === 'development'
+        ? 'http://localhost:5050'
+        : 'https://hrmbackend-x4ea.onrender.com';
     axios.defaults.baseURL = baseURL;
+
     try {
-      const response = await axios.post('/api/users', {
-        email,
-        username,
-        password,
-      }, {
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await axios.post(
+        '/api/users/register',
+        {
+          email,
+          username,
+          password,
         },
-      });
-  
-      if (response.status === 201) { // Check for the correct HTTP status code
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      if (response.status === 201) {
         // User registration successful
-        router.push('/');
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: 'User registered successfully',
+        }).then(() => {
+          // Redirect or perform any other action after successful registration
+          router.push('/');
+        });
       } else {
         // Handle errors or unsuccessful registration
         console.log(response.status);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Error during registration',
+        });
       }
     } catch (error) {
       // Handle API request error
+      console.error(error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Error during registration',
+      });
     }
   };
-  
+
+
 
   return (
     <Box
@@ -91,7 +117,7 @@ export default function RegisterView() {
 
           <Typography variant="body2" sx={{ mt: 2, mb: 5 }}>
             Already have an account?
-            <Link href="/login"variant="subtitle2" sx={{ ml: 0.5 }}>
+            <Link href="/login" variant="subtitle2" sx={{ ml: 0.5 }}>
               Sign in
             </Link>
           </Typography>
@@ -169,16 +195,16 @@ export default function RegisterView() {
               onChange={(e) => setPassword(e.target.value)}
             />
 
-          <LoadingButton
-            fullWidth
-            size="large"
-            type="submit"
-            variant="contained"
-            color="inherit"
-            onClick={handleRegister}
-          >
-            Register
-          </LoadingButton>
+            <LoadingButton
+              fullWidth
+              size="large"
+              type="submit"
+              variant="contained"
+              color="inherit"
+              onClick={handleRegister}
+            >
+              Register
+            </LoadingButton>
           </Stack>
 
 
