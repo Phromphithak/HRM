@@ -63,7 +63,7 @@ export default function RegisterView() {
           text: 'User registered successfully',
         }).then(() => {
           // Redirect or perform any other action after successful registration
-          router.push('/');
+          router.push('/login');
         });
       } else {
         // Handle errors or unsuccessful registration
