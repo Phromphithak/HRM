@@ -71,7 +71,7 @@ export default function UserTableRow({
               title: 'User deleted successfully!',
             });
             // Reload the page or update the user list
-            router.reload('/user');
+            router.reload('/payroll');
           }
         } catch (error) {
           console.error('Error deleting user:', error);

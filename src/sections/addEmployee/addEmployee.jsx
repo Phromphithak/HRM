@@ -70,7 +70,7 @@ export default function AddEmployee() {
           showConfirmButton: false,
           timer: 1500,
         });
-        router.push('/user');
+        router.reload('/user');
       }
     } catch (error) {
       // Handle Axios request errors
