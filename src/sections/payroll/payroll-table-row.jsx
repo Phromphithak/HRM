@@ -1,8 +1,8 @@
 // payroll-table-row.jsx
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import withReactContent from 'sweetalert2-react-content';
 
@@ -16,27 +16,37 @@ import TableCell from '@mui/material/TableCell';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 
-import { useRouter } from 'src/routes/hooks';
-
 import Iconify from 'src/components/iconify';
-
 
 // ----------------------------------------------------------------------
 
 export default function UserTableRow({
-  phonenumber,
-  id, // Assuming id is the MongoDB id
+  id,
   avatarUrl,
   handleClick,
-  name,
-  email,
-  position,
   selected,
-  salary,
 }) {
+  const [employee, setEmployee] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`https://hrmbackend-x4ea.onrender.com/api/employees/${id}`);
+        if (!response.ok) {
+          throw new Error(`Server returned an error: ${response.status} ${response.statusText}`);
+        }
+        const data = await response.json();
+        setEmployee(data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, [id]);
+
   const Navigate = useNavigate();
   const [open, setOpen] = useState(null);
-  const router = useRouter();
   const MySwal = withReactContent(Swal);
 
   const handleDeleteUser = async () => {
@@ -59,7 +69,7 @@ export default function UserTableRow({
         console.log('Deleting user with id:', id);
 
         try {
-          const response = await axios.delete(`/api/employees/${id}`);
+          const response = await axios.delete(`https://hrmbackend-x4ea.onrender.com/api/employees/${id}`);
 
           if (response.status !== 200) {
             console.error('Error deleting user:', response.status, response.statusText);
@@ -71,7 +81,7 @@ export default function UserTableRow({
               title: 'User deleted successfully!',
             });
             // Reload the page or update the user list
-            router.reload('/payroll');
+            navigator.reload('/payroll');
           }
         } catch (error) {
           console.error('Error deleting user:', error);
@@ -87,10 +97,15 @@ export default function UserTableRow({
   const handleCloseMenu = () => {
     setOpen(null);
   };
+
   const handleEditClick = () => {
     handleCloseMenu();
     Navigate(`/edit-employee/${id}`);
   };
+
+  if (!employee) {
+    return null; // You may choose to render a loading indicator while fetching data
+  }
 
   return (
     <>
@@ -101,25 +116,23 @@ export default function UserTableRow({
 
         <TableCell component="th" scope="row" padding="none">
           <Stack direction="row" alignItems="center" spacing={2}>
-            <Avatar alt={name} src={avatarUrl} />
-            <Typography variant="subtitle2" noWrap >
-              {name}
+            <Avatar alt={employee?.personalInformation?.firstName} src={avatarUrl} />
+            <Typography variant="subtitle2" noWrap>
+              {employee?.personalInformation?.firstName} {employee?.personalInformation?.lastName}
             </Typography>
           </Stack>
         </TableCell>
 
-        <TableCell>{email}</TableCell>
-        <TableCell>{position}</TableCell>
-        <TableCell>{salary}</TableCell>
-        <TableCell>{phonenumber}</TableCell>
+        <TableCell>{employee?.personalInformation?.email}</TableCell>
+        <TableCell>{employee?.employmentInformation?.position}</TableCell>
+        <TableCell>{employee?.payrollInformation?.salary}</TableCell>
+        <TableCell>{employee?.personalInformation?.phoneNumber}</TableCell>
         <TableCell align="right">
           <IconButton onClick={handleOpenMenu}>
             <Iconify icon="eva:more-vertical-fill" />
           </IconButton>
         </TableCell>
       </TableRow>
-
-
 
       <Popover
         open={!!open}
@@ -136,11 +149,10 @@ export default function UserTableRow({
           Edit
         </MenuItem>
 
-        <MenuItem onClick={handleDeleteUser} sx={{ color: 'error.main' }} >
+        <MenuItem onClick={handleDeleteUser} sx={{ color: 'error.main' }}>
           <Iconify icon="eva:trash-2-outline" sx={{ mr: 2 }} />
           Delete
         </MenuItem>
-
       </Popover>
     </>
   );
@@ -148,12 +160,7 @@ export default function UserTableRow({
 
 UserTableRow.propTypes = {
   id: PropTypes.string,
-  phonenumber: PropTypes.any,
   avatarUrl: PropTypes.any,
   handleClick: PropTypes.func,
-  name: PropTypes.any,
-  email: PropTypes.any,
-  position: PropTypes.any,
   selected: PropTypes.any,
-  salary: PropTypes.any,
 };
