@@ -81,7 +81,7 @@ export default function UserTableRow({
               title: 'User deleted successfully!',
             });
             // Reload the page or update the user list
-            navigator.reload('/payroll');
+            window.location.reload();
           }
         } catch (error) {
           console.error('Error deleting user:', error);
@@ -100,7 +100,7 @@ export default function UserTableRow({
 
   const handleEditClick = () => {
     handleCloseMenu();
-    Navigate(`/edit-employee/${id}`);
+    Navigate(`/edit-employee/${id}`, { state: { employee } });
   };
 
   if (!employee) {
@@ -123,10 +123,11 @@ export default function UserTableRow({
           </Stack>
         </TableCell>
 
-        <TableCell>{employee?.personalInformation?.email}</TableCell>
+        <TableCell>{employee?.employmentInformation?.employmentType}</TableCell>
         <TableCell>{employee?.employmentInformation?.position}</TableCell>
         <TableCell>{employee?.payrollInformation?.salary}</TableCell>
-        <TableCell>{employee?.personalInformation?.phoneNumber}</TableCell>
+        <TableCell>{employee?.deductions?.tax}</TableCell>
+        <TableCell>{employee?.specialWorkHistory?.bonus}</TableCell>
         <TableCell align="right">
           <IconButton onClick={handleOpenMenu}>
             <Iconify icon="eva:more-vertical-fill" />

@@ -169,10 +169,11 @@ export default function PayrollPage() {
                 onSelectAllClick={handleSelectAllClick}
                 headLabel={[
                   { id: 'name', label: 'Name' },
-                  { id: 'email', label: 'Email' },
-                  { id: 'position', label: 'Position' },
-                  { id: 'salary', label: 'Salary' },
-                  { id: 'phonenumber', label: 'Phonenumber' },
+                  { id: 'employmentType', label: 'Type' },
+                  { id: 'position', label: 'ตำแหน่ง' },
+                  { id: 'salary', label: 'เงินเดือน' },
+                  { id: 'tax', label: 'ภาษี'},
+                  { id: 'bonus', label: 'โบนัส'},
                   { id: 'isVerified', label: 'Verified', align: 'center' },
 
                 ]}

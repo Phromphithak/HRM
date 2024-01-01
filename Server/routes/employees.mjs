@@ -47,23 +47,47 @@ router.post("/", async (req, res) => {
 
 // This section will help you update a record by id.
 router.put("/:id", async (req, res) => {
-  const query = { _id: new ObjectId(req.params.id) };
-  const updates =  {
-    $set: {
-      name: req.body.name,
-      address: req.body.address,
-      phonenumber: req.body.phonenumber,
-      email: req.body.email,
-      position: req.body.position,
-      avatarUrl: req.body.avatarUrl,
-      salary: req.body.salary,
-    }
-  };
+  try {
+    console.log("Received request to update employee with ID:", employeeId);
+    console.log("Received data:", req.body);
+    const query = { _id: new ObjectId(req.params.id) };
 
-  let collection = await db.collection("employees");
-  let result = await collection.updateOne(query, updates);
-  res.send(result).status(200);
+    // Extract data from the request body
+    const {
+      personalInformation,
+      employmentInformation,
+      payrollInformation,
+      paymentInformation,
+      deductions,
+      specialWorkHistory,
+      adjustments,
+    } = req.body;
+
+    const updates = {
+      $set: {
+        personalInformation,
+        employmentInformation,
+        payrollInformation,
+        paymentInformation,
+        deductions,
+        specialWorkHistory,
+        adjustments,
+      },
+    };
+    
+    let collection = await db.collection("employees");
+    let result = await collection.updateOne(query, updates);
+    console.log("Update result:", result);
+
+    res.send(result).status(200);
+  } catch (error) {
+    console.error('Error updating employee:', error);
+    res.status(500).send('Server Error');
+  }
 });
+
+
+
 
 // This section will help you delete a record
 router.delete("/:id", async (req, res) => {
