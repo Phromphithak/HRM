@@ -64,9 +64,14 @@ const EditEmployeePage = () => {
   });
   useEffect(() => {
     const fetchEmployeeData = async () => {
+      const baseURL =
+      process.env.NODE_ENV === 'development'
+        ? 'http://localhost:5050'
+        : 'https://hrmbackend-x4ea.onrender.com';
+    axios.defaults.baseURL = baseURL;
       try {
         if (employeeId) {
-          const response = await axios.get(`https://hrmbackend-x4ea.onrender.com/api/employees/${employeeId}`);
+          const response = await axios.get(`/api/employees/${employeeId}`);
           setEmployeeData(response.data || {});
         } else {
           console.warn('Employee ID is undefined. Skipping request.');
@@ -105,7 +110,7 @@ const EditEmployeePage = () => {
         // Format other date fields in a similar way
       };
 
-      const response = await axios.put(`https://hrmbackend-x4ea.onrender.com/api/employees/${employeeId}`, formattedEmployeeData, {
+      const response = await axios.put(`/api/employees/${employeeId}`, formattedEmployeeData, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -163,7 +168,7 @@ const EditEmployeePage = () => {
               required
               name="firstname"
               label="First Name"
-              value={employeeData.personalInformation.firstName}
+              value={employeeData.personalInformation?.firstName}
               onChange={(e) =>
                 setEmployeeData((prevData) => ({
                   ...prevData,
@@ -178,7 +183,7 @@ const EditEmployeePage = () => {
               required
               name="lastname"
               label="Lastname"
-              value={employeeData.personalInformation.lastName}
+              value={employeeData.personalInformation?.lastName}
               onChange={(e) =>
                 setEmployeeData((prevData) => ({
                   ...prevData,
@@ -193,7 +198,7 @@ const EditEmployeePage = () => {
               required
               name="type"
               label="Type"
-              value={employeeData.employmentInformation.employmentType}
+              value={employeeData.employmentInformation?.employmentType}
               onChange={(e) =>
                 setEmployeeData((prevData) => ({
                   ...prevData,
@@ -208,7 +213,7 @@ const EditEmployeePage = () => {
               <TextField
                 select
                 label="Position"
-                value={employeeData.employmentInformation.position}
+                value={employeeData.employmentInformation?.position}
                 onChange={(e) => handleChange(e, 'employmentInformation', 'position')}
               >
                 <MenuItem value="Programmer">Programmer</MenuItem>
@@ -227,7 +232,7 @@ const EditEmployeePage = () => {
               name="salary"
               label="Salary"
               type="number"
-              value={employeeData.payrollInformation.salary}
+              value={employeeData.payrollInformation?.salary}
               onChange={(e) =>
                 setEmployeeData((prevData) => ({
                   ...prevData,
@@ -241,7 +246,7 @@ const EditEmployeePage = () => {
             <TextField
               name="taxDeduction"
               label="Tax Deduction"
-              value={employeeData.payrollInformation.taxDeduction}
+              value={employeeData.payrollInformation?.taxDeduction}
               onChange={(e) =>
                 setEmployeeData((prevData) => ({
                   ...prevData,
@@ -255,7 +260,7 @@ const EditEmployeePage = () => {
             <TextField
               name="socialSecurity"
               label="Social Security"
-              value={employeeData.payrollInformation.socialSecurity}
+              value={employeeData.payrollInformation?.socialSecurity}
               onChange={(e) =>
                 setEmployeeData((prevData) => ({
                   ...prevData,

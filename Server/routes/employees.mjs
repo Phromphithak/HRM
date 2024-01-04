@@ -48,8 +48,8 @@ router.post("/", async (req, res) => {
 // This section will help you update a record by id.
 router.put("/:id", async (req, res) => {
   try {
-    console.log("Received request to update employee with ID:", employeeId);
-    console.log("Received data:", req.body);
+    //console.log("Received request to update employee with ID:", id);
+    //console.log("Received data:", req.body);
     const query = { _id: new ObjectId(req.params.id) };
 
     // Extract data from the request body
@@ -75,11 +75,12 @@ router.put("/:id", async (req, res) => {
       },
     };
     
-    let collection = await db.collection("employees");
+    let collection = db.collection("employees");
     let result = await collection.updateOne(query, updates);
+    
     console.log("Update result:", result);
-
     res.send(result).status(200);
+
   } catch (error) {
     console.error('Error updating employee:', error);
     res.status(500).send('Server Error');
