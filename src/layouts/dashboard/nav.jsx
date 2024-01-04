@@ -28,11 +28,10 @@ export default function Nav({ openNav, onCloseNav }) {
   const pathname = usePathname();
 
   const upLg = useResponsive('up', 'lg');
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [user, setUser] = useState([]);
+  // const [loading, setLoading] = useState(true);
+  // const [error, setError] = useState(null);
   useEffect(() => {
-    // Simulate authentication (replace with your actual authentication logic)
     const authenticateUser = async () => {
       try {
         const baseURL =
@@ -42,16 +41,14 @@ export default function Nav({ openNav, onCloseNav }) {
         axios.defaults.baseURL = baseURL;
         const response = await axios.get('/api/users/');
         const userData = response.data;
+        console.log('userData:', userData);
+  
         setUser(userData);
-        setLoading(false); 
-        console.log("userData: ",userData)
-      } catch (errorch) {
-        console.error('Authentication error:', errorch);
-        setError('Error fetching user data');
-        setLoading(false);
+      } catch (error) {
+        console.error('Authentication error:', error);
       }
     };
-
+  
     authenticateUser();
   }, []);
   useEffect(() => {
@@ -62,28 +59,34 @@ export default function Nav({ openNav, onCloseNav }) {
   }, [pathname]);
 
   const renderAccount = (
-    <Box
-      sx={{
-        my: 3,
-        mx: 2.5,
-        py: 2,
-        px: 2.5,
-        display: 'flex',
-        borderRadius: 1.5,
-        alignItems: 'center',
-        bgcolor: (theme) => alpha(theme.palette.grey[500], 0.12),
-      }}
-    >
-      <Avatar src={user?.profileImage} alt="photoURL" />
-
-      <Box sx={{ ml: 2 }}>
-        <Typography variant="subtitle2">{user?.fullName}</Typography>
-
-        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-          {user?.role}
-        </Typography>
-      </Box>
-    </Box>
+    <Stack>
+      {user.map((userData) => (
+        <Box
+          key={userData._id}
+          sx={{
+            my: 3,
+            mx: 2.5,
+            py: 2,
+            px: 2.5,
+            display: 'flex',
+            borderRadius: 1.5,
+            alignItems: 'center',
+            bgcolor: (theme) => alpha(theme.palette.grey[500], 0.12),
+          }}
+        >
+          <Avatar src={userData?.profileImage} alt="photoURL" />
+  
+          <Box sx={{ ml: 2 }}>
+            <>
+              <Typography variant="subtitle2">{userData.fullName}</Typography>
+              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                {userData?.role}
+              </Typography>
+            </>
+          </Box>
+        </Box>
+      ))}
+    </Stack>
   );
 
   const renderMenu = (
@@ -93,21 +96,6 @@ export default function Nav({ openNav, onCloseNav }) {
       ))}
     </Stack>
   );
-  let content;
-
-  if (loading) {
-    content = <Typography>Loading...</Typography>;
-  } else if (error) {
-    content = <Typography>Error: {error}</Typography>;
-  } else {
-    content = (
-      <>
-        {renderAccount}
-        {renderMenu}
-        <Box sx={{ flexGrow: 1 }} />
-      </>
-    );
-  }
   const renderContent = (
     <Scrollbar
       sx={{
@@ -121,7 +109,8 @@ export default function Nav({ openNav, onCloseNav }) {
     >
       <Logo sx={{ mt: 3, ml: 4 }} />
 
-      {content}
+      {renderAccount}
+      {renderMenu}
 
       <Box sx={{ flexGrow: 1 }} />
     </Scrollbar>
