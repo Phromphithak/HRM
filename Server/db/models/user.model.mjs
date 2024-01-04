@@ -1,5 +1,4 @@
 // models/User.js
-
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
@@ -28,7 +27,7 @@ const userSchema = new mongoose.Schema({
   },
   profileImage: {
     type: String, // เก็บ URL ของรูปภาพหรือ path ไปยังรูปภาพบนเซิร์ฟเวอร์
-    default: 'default-profile-image.jpg', // รูปภาพเริ่มต้น (ถ้ามี)
+    default: `/assets/images/avatars/avatar_1.jpg`, // รูปภาพเริ่มต้น (ถ้ามี)
   },
   // อื่น ๆ ที่คุณต้องการเก็บสำหรับผู้ใช้
   // ...
