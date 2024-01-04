@@ -1,6 +1,8 @@
+// conn.mjs
+
 import mongoose from "mongoose";
 
-const connectionString = "mongodb+srv://LIX:lP2cvkJvHQWK4F4H@hrmdata.z5igopj.mongodb.net/?retryWrites=true&w=majority";
+const connectionString = "mongodb+srv://LIX:lP2cvkJvHQWK4F4H@hrmdata.z5igopj.mongodb.net/test?retryWrites=true&w=majority";
 
 // Update the connection options
 const mongooseOptions = {

@@ -1,8 +1,8 @@
 // routes/authRoutes.mjs
 import express from "express";
 import bcrypt from "bcrypt";
-import User from "../db/models/user.model.mjs";
 import db from "../db/conn.mjs";
+import { User } from "../db/models/user.model.mjs"
 
 const router = express.Router();
 
@@ -31,16 +31,16 @@ router.post("/register", async (req, res) => {
     }
 
     // Save the user
-    const form = {
+    const newUser = new User({
       username: req.body.username,
       email: req.body.email,
       password: hashedPassword,
-      role : "user",
-    };
-
-    const collection = await db.collection("users");
-    const result = await collection.insertOne(form);
-
+      fullName: req.body.fullName,
+      role: "employee", // เปลี่ยนจาก "user" เป็น "employee"
+    });
+    await newUser.save();
+    // const collection = await db.collection("users");
+    // const result = await collection.insertOne(form);
     res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
     console.error(error);
@@ -56,15 +56,17 @@ router.post("/login", async (req, res) => {
     // Find the user by email
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(401).json({ error: "Invalid credentials" });
+      return res.status(401).json({ error: "Invalid email or password" });
     }
 
     // Compare the password
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {
-      return res.status(401).json({ error: "Invalid credentials" });
+      return res.status(401).json({ error: "Invalid email or password" });
     }
+    // ระบบ Token
 
+    // ส่วนนี้
     res.status(200).json({ message: "Login successful" });
   } catch (error) {
     console.error(error);

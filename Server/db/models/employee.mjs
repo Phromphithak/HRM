@@ -1,5 +1,5 @@
 // models/employee.mjs
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
 const leaveHistorySchema = new mongoose.Schema({
   startDate: { type: Date, required: true },
@@ -69,7 +69,5 @@ const employeeSchema = new mongoose.Schema({
   adjustments: [adjustmentsSchema],
 });
 
-const employee = mongoose.model('Employee', employeeSchema);
-
-module.exports = employee;
+export const Employee = mongoose.model('employees', employeeSchema);
 

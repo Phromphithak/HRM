@@ -2,6 +2,8 @@
 import express from "express";
 import db from "../db/conn.mjs";
 import { ObjectId } from "mongodb";
+import { Employee } from "../db/models/employee.mjs";
+
 
 const router = express.Router();
 
@@ -93,10 +95,6 @@ router.put("/:id", async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
-
-
-
-
 // This section will help you delete a record
 router.delete("/:id", async (req, res) => {
   const query = { _id: new ObjectId(req.params.id) };

@@ -30,6 +30,7 @@ export default function RegisterView() {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
+  const [fullName, setfullName] = useState('');
   const [password, setPassword] = useState('');
 
 
@@ -47,6 +48,7 @@ export default function RegisterView() {
           email,
           username,
           password,
+          fullName,
         },
         {
           headers: {
@@ -173,6 +175,13 @@ export default function RegisterView() {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
             />
+            <TextField
+            name="fullname"
+            label="FullName"
+            value={fullName}
+            onChange={(e) => setfullName(e.target.value)}
+          />
+            
             <TextField
               name="password"
               label="Password"

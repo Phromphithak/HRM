@@ -1,6 +1,6 @@
 // models/User.js
 
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
   username: {
@@ -28,12 +28,11 @@ const userSchema = new mongoose.Schema({
   },
   profileImage: {
     type: String, // เก็บ URL ของรูปภาพหรือ path ไปยังรูปภาพบนเซิร์ฟเวอร์
-    default: `/assets/images/avatars/avatar_${index + 1}.jpg`, // รูปภาพเริ่มต้น (ถ้ามี)
+    default: 'default-profile-image.jpg', // รูปภาพเริ่มต้น (ถ้ามี)
   },
   // อื่น ๆ ที่คุณต้องการเก็บสำหรับผู้ใช้
   // ...
 });
 
-const User = mongoose.model('User', userSchema);
+export const User = mongoose.model('users', userSchema);
 
-module.exports = User;
