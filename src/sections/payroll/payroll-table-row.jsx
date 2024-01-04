@@ -30,18 +30,24 @@ export default function UserTableRow({
 
   useEffect(() => {
     const fetchData = async () => {
+      const baseURL =
+        process.env.NODE_ENV === 'development'
+          ? 'http://localhost:5050'
+          : 'https://hrmbackend-x4ea.onrender.com';
+      axios.defaults.baseURL = baseURL;
       try {
-        const response = await fetch(`https://hrmbackend-x4ea.onrender.com/api/employees/${id}`);
-        if (!response.ok) {
+        const response = await axios.get(`/api/employees/${id}`);
+        // Check if the status code is not in the range 200-299
+        if (response.status < 200 || response.status >= 300) {
           throw new Error(`Server returned an error: ${response.status} ${response.statusText}`);
         }
-        const data = await response.json();
-        setEmployee(data);
+        const { data } = response;
+        setEmployee(data || {});
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
-
+  
     fetchData();
   }, [id]);
 
@@ -69,7 +75,7 @@ export default function UserTableRow({
         console.log('Deleting user with id:', id);
 
         try {
-          const response = await axios.delete(`https://hrmbackend-x4ea.onrender.com/api/employees/${id}`);
+          const response = await axios.delete(`/api/employees/${id}`);
 
           if (response.status !== 200) {
             console.error('Error deleting user:', response.status, response.statusText);

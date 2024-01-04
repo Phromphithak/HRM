@@ -20,7 +20,7 @@ import Logo from 'src/components/logo';
 
 
 const EditEmployeePage = () => {
-  
+
   const theme = useTheme();
   const { employeeId } = useParams();
   const navigate = useNavigate();
@@ -65,10 +65,10 @@ const EditEmployeePage = () => {
   useEffect(() => {
     const fetchEmployeeData = async () => {
       const baseURL =
-      process.env.NODE_ENV === 'development'
-        ? 'http://localhost:5050'
-        : 'https://hrmbackend-x4ea.onrender.com';
-    axios.defaults.baseURL = baseURL;
+        process.env.NODE_ENV === 'development'
+          ? 'http://localhost:5050'
+          : 'https://hrmbackend-x4ea.onrender.com';
+      axios.defaults.baseURL = baseURL;
       try {
         if (employeeId) {
           const response = await axios.get(`/api/employees/${employeeId}`);
@@ -223,10 +223,10 @@ const EditEmployeePage = () => {
                 <MenuItem value="Tester">Tester</MenuItem>
                 <MenuItem value="Project Manager">Project Manager</MenuItem>
                 <MenuItem value="IT Support/Help Desk/Administrator">IT Support/Help Desk/Administrator</MenuItem>
-                <MenuItem value="Software Engineer	">Software Engineer</MenuItem>
-
+                <MenuItem value="Software Engineer">Software Engineer</MenuItem>
               </TextField>
             </FormControl>
+
             <TextField
               required
               name="salary"
