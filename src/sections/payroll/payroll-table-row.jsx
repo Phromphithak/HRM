@@ -27,14 +27,15 @@ export default function UserTableRow({
   selected,
 }) {
   const [employee, setEmployee] = useState(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const baseURL =
+  const baseURL =
         process.env.NODE_ENV === 'development'
           ? 'http://localhost:5050'
           : 'https://hrmbackend-x4ea.onrender.com';
       axios.defaults.baseURL = baseURL;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      
       try {
         const response = await axios.get(`/api/employees/${id}`);
         // Check if the status code is not in the range 200-299
