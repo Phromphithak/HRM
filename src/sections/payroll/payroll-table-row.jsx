@@ -51,7 +51,6 @@ export default function UserTableRow({
   
     fetchData();
   }, [id]);
-
   const Navigate = useNavigate();
   const [open, setOpen] = useState(null);
   const MySwal = withReactContent(Swal);
@@ -80,14 +79,12 @@ export default function UserTableRow({
 
           if (response.status !== 200) {
             console.error('Error deleting user:', response.status, response.statusText);
-          } else {
+          } else{
             console.log('Successfully deleted user');
-            // Show a success message
             MySwal.fire({
               icon: 'success',
               title: 'User deleted successfully!',
             });
-            // Reload the page or update the user list
             window.location.reload();
           }
         } catch (error) {
@@ -133,7 +130,7 @@ export default function UserTableRow({
         <TableCell>{employee?.employmentInformation?.employmentType}</TableCell>
         <TableCell>{employee?.employmentInformation?.position}</TableCell>
         <TableCell>{employee?.payrollInformation?.salary}</TableCell>
-        <TableCell>{employee?.deductions?.tax}</TableCell>
+        <TableCell>{employee?.payrollInformation?.taxDeduction}</TableCell>
         <TableCell>{employee?.specialWorkHistory?.bonus}</TableCell>
         <TableCell align="right">
           <IconButton onClick={handleOpenMenu}>

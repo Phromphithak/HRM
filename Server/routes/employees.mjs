@@ -25,19 +25,29 @@ router.get("/:id", async (req, res) => {
 // This section will help you create a new record.
 router.post("/", async (req, res) => {
   try {
+    const {
+      personalInformation,
+      employmentInformation,
+      payrollInformation,
+      paymentInformation,
+      deductions,
+      specialWorkHistory,
+      adjustments,
+    } = req.body;
     const newDocument = {
-      name: req.body.name,
-      address: req.body.address,
-      phonenumber: req.body.phonenumber,
-      email: req.body.email,
-      position: req.body.position,
-      avatarUrl: req.body.avatarUrl,
-      salary: req.body.salary,
+      personalInformation,
+      employmentInformation,
+      payrollInformation,
+      paymentInformation,
+      deductions,
+      specialWorkHistory,
+      adjustments,
     };
 
     const collection = await db.collection("employees");
     const result = await collection.insertOne(newDocument);
     res.status(200).send(result); // ops จะบอกถึงเอกสารที่ถูกสร้างขึ้น
+    console.log(result, collection);
   } catch (error) {
     console.error(error);
     res.status(500).send('Server Error');
@@ -48,10 +58,7 @@ router.post("/", async (req, res) => {
 // This section will help you update a record by id.
 router.put("/:id", async (req, res) => {
   try {
-    //console.log("Received request to update employee with ID:", id);
-    //console.log("Received data:", req.body);
     const query = { _id: new ObjectId(req.params.id) };
-
     // Extract data from the request body
     const {
       personalInformation,

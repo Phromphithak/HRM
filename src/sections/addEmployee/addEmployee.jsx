@@ -1,4 +1,4 @@
- import axios from 'axios';
+import axios from 'axios';
 // ----sweetalert2
 import Swal from 'sweetalert2'
 import { useState } from 'react';
@@ -28,62 +28,110 @@ export default function AddEmployee() {
   const router = useRouter();
 
   const [employeeData, setEmployeeData] = useState({
-    name: '',
-    email: '',
-    position: '',
-    phonenumber: '',
-    avatarUrl: '',
-    salary: 0,
+    personalInformation: {
+      firstName: '',
+      lastName: '',
+      address: '',
+      nationalID: '',
+      phoneNumber: '',
+      email: '',
+    },
+    employmentInformation: {
+      position: '',
+      startDate: '',
+      employmentType: '',
+      workSchedule: '',
+      leaveHistory: [],
+    },
+    payrollInformation: {
+      salary: 0,
+      taxDeduction: 0,
+      socialSecurity: 0,
+      overtime: 0,
+      payHistory: [],
+    },
+    paymentInformation: {
+      paymentDate: '',
+      paymentMethod: '',
+    },
+    deductions: {
+      tax: 0,
+      socialSecurity: 0,
+      loanRepayment: 0,
+    },
+    specialWorkHistory: {
+      bonus: 0,
+      allowance: 0,
+    },
+    adjustments: [],
   });
+
   const handleAddEmployee = async () => {
-    // Check if the required fields are filled in
-    if (!employeeData.name || !employeeData.email || !employeeData.phonenumber) {
+    // Check if the required fields are NOT filled in
+    if (!employeeData.personalInformation?.firstName || !employeeData.personalInformation?.lastName) 
+      {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
-        text: 'กรุณากรอกข้อมูลให้ครบ name, email, หรือ phonenumber',
+        text: 'กรุณากรอกข้อมูลให้ครบ',
       });
-      return;
-    }
-  
-    // Rest of the code for submitting the form
-    const baseURL =
-      process.env.NODE_ENV === 'development'
-        ? 'http://localhost:5050'
-        : 'https://hrmbackend-x4ea.onrender.com';
-  
-    axios.defaults.baseURL = baseURL;
-    const MySwal = withReactContent(Swal);
-  
-    try {
-      const response = await axios.post('/api/employees', employeeData, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-  
-      // Check for a successful response (2xx status codes)
-      if (response.status >= 200 && response.status < 300) {
-        MySwal.fire({
-          icon: 'success',
-          title: 'Your work has been saved',
-          showConfirmButton: false,
-          timer: 1500,
+    } else {
+      // Rest of the code for submitting the form
+      
+      const MySwal = withReactContent(Swal);
+
+      try {
+        const baseURL =
+        process.env.NODE_ENV === 'development'
+          ? 'http://localhost:5050'
+          : 'https://hrmbackend-x4ea.onrender.com';
+        axios.defaults.baseURL = baseURL;
+        const response = await axios.post('/api/employees', employeeData, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
         });
-        router.push('/user');
+
+        // Check for a successful response (2xx status codes)
+        if (response.status >= 200 && response.status < 300) {
+          MySwal.fire({
+            icon: 'success',
+            title: 'Your work has been saved',
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          router.push('/payroll');
+        }
+      } catch (error) {
+        // Handle Axios request errors
+        console.error('Axios request error:', error);
+        // You might want to show an error message to the user
       }
-    } catch (error) {
-      // Handle Axios request errors
-      console.error('Axios request error:', error);
-      // You might want to show an error message to the user
     }
   };
-  
-  const handleChange = (event) => {
-    setEmployeeData({ ...employeeData, position: event.target.value });
+
+
+  const handleChangeType = (event) => {
+    setEmployeeData((prevData) => ({
+      ...prevData,
+      employmentInformation: {
+        ...prevData.employmentInformation,
+        employmentType: event.target.value,
+      },
+    }));
   };
-  
-  
+
+  const handleChange = (event) => {
+    setEmployeeData((prevData) => ({
+      ...prevData,
+      employmentInformation: {
+        ...prevData.employmentInformation,
+        position: event.target.value,
+      },
+    }));
+  };
+
+
   return (
     <Box
       sx={{
@@ -121,31 +169,47 @@ export default function AddEmployee() {
           <Stack spacing={3}>
             <TextField
               required
-              name="name"
-              label="Name"
-              value={employeeData.name}
+              name="firstname"
+              label="First Name"
+              value={employeeData.personalInformation?.firstName}
               onChange={(e) =>
-                setEmployeeData({ ...employeeData, name: e.target.value })
+                setEmployeeData((prevData) => ({
+                  ...prevData,
+                  personalInformation: {
+                    ...prevData.personalInformation,
+                    firstName: e.target.value,
+                  },
+                }))
               }
             />
             <TextField
               required
-              name="email"
-              label="Email"
-              value={employeeData.email}
+              name="lastname"
+              label="Last Name"
+              value={employeeData.personalInformation?.lastName}
               onChange={(e) =>
-                setEmployeeData({ ...employeeData, email: e.target.value })
+                setEmployeeData((prevData) => ({
+                  ...prevData,
+                  personalInformation: {
+                    ...prevData.personalInformation,
+                    lastName: e.target.value,
+                  },
+                }))
               }
             />
-            <TextField
-              required
-              name="phonenumber"
-              label="Phonenumber"
-              value={employeeData.phonenumber}
-              onChange={(e) =>
-                setEmployeeData({ ...employeeData, phonenumber: e.target.value })
-              }
-            />
+
+            <FormControl fullWidth>
+              <TextField
+                select
+                label="Type"
+                value={employeeData.employmentInformation?.employmentType}
+                onChange={handleChangeType}
+              >
+                <MenuItem value="Full-Time">Full-Time</MenuItem>
+                <MenuItem value="Part-Time">Part-Time</MenuItem>
+                <MenuItem value="other">other</MenuItem>
+              </TextField>
+            </FormControl>
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">Position</InputLabel>
               <Select
@@ -162,27 +226,68 @@ export default function AddEmployee() {
                 <MenuItem value="Tester">Tester</MenuItem>
                 <MenuItem value="Project Manager">Project Manager</MenuItem>
                 <MenuItem value="IT Support/Help Desk/Administrator">IT Support/Help Desk/Administrator</MenuItem>
-
               </Select>
             </FormControl>
-            <TextField
-              name="avatarUrl"
-              label="Avatar URL"
-              value={employeeData.avatarUrl}
-              onChange={(e) =>
-                setEmployeeData({ ...employeeData, avatarUrl: e.target.value })
-              }
-            />
             <TextField
               required
               name="salary"
               label="Salary"
               type="number"
-              value={employeeData.salary}
+              value={employeeData.payrollInformation.salary}
               onChange={(e) =>
-                setEmployeeData({ ...employeeData, salary: e.target.value })
+                setEmployeeData((prevData) => ({
+                  ...prevData,
+                  payrollInformation: {
+                    ...prevData.payrollInformation,
+                    salary: e.target.value,
+                  },
+                }))
               }
             />
+            <TextField
+              required
+              name="taxDeduction"
+              label="taxDeduction"
+              value={employeeData.payrollInformation?.taxDeduction}
+              onChange={(e) =>
+                setEmployeeData((prevData) => ({
+                  ...prevData,
+                  payrollInformation: {
+                    ...prevData.payrollInformation,
+                    taxDeduction: e.target.value,
+                  },
+                }))
+              }
+            />
+            <TextField
+              required
+              name="socialSecurity"
+              label="social Security"
+              value={employeeData.payrollInformation?.socialSecurity}
+              onChange={(e) =>
+                setEmployeeData((prevData) => ({
+                  ...prevData,
+                  payrollInformation: {
+                    ...prevData.payrollInformation,
+                    socialSecurity: e.target.value,
+                  },
+                }))
+              }
+            />
+            <TextField
+                name="specialWorkHistory"
+                label="bonus"
+                value={employeeData.specialWorkHistory?.bonus}
+                onChange={(e) =>
+                  setEmployeeData((prevData) => ({
+                    ...prevData,
+                    specialWorkHistory: {
+                      ...prevData.specialWorkHistory,
+                      bonus: e.target.value,
+                    },
+                  }))
+                }
+              />
             <LoadingButton
               fullWidth
               size="large"
@@ -197,7 +302,7 @@ export default function AddEmployee() {
 
 
         </Card>
-      </Stack>
-    </Box>
+      </Stack >
+    </Box >
   );
 }

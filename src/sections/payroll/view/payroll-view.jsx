@@ -172,7 +172,7 @@ export default function PayrollPage() {
                   { id: 'employmentType', label: 'Type' },
                   { id: 'position', label: 'ตำแหน่ง' },
                   { id: 'salary', label: 'เงินเดือน' },
-                  { id: 'tax', label: 'ภาษี'},
+                  { id: 'tax', label: 'หักเงิน'},
                   { id: 'bonus', label: 'โบนัส'},
                   { id: 'isVerified', label: 'Verified', align: 'center' },
 
