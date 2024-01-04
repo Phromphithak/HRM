@@ -3,11 +3,25 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
+import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import LoadingButton from '@mui/lab/LoadingButton';
+import FormControl from '@mui/material/FormControl';
+import { alpha, useTheme } from '@mui/material/styles';
+
+import { bgGradient } from 'src/theme/css';
+
+import Logo from 'src/components/logo';
+
 
 const EditEmployeePage = () => {
+  
+  const theme = useTheme();
   const { employeeId } = useParams();
   const navigate = useNavigate();
   const [employeeData, setEmployeeData] = useState({
@@ -61,7 +75,7 @@ const EditEmployeePage = () => {
         console.error('Error fetching employee data:', error);
       }
     };
-  
+
     fetchEmployeeData();
   }, [employeeId]);
 
@@ -77,9 +91,9 @@ const EditEmployeePage = () => {
 
   const handleEditEmployee = async () => {
     try {
-      // Remove _id from the data
+      // eslint-disable-next-line
       const { _id, ...dataToSend } = employeeData;
-  
+
       // Format date strings before sending to the server
       const formattedEmployeeData = {
         ...dataToSend,
@@ -90,13 +104,13 @@ const EditEmployeePage = () => {
         },
         // Format other date fields in a similar way
       };
-  
+
       const response = await axios.put(`https://hrmbackend-x4ea.onrender.com/api/employees/${employeeId}`, formattedEmployeeData, {
         headers: {
           'Content-Type': 'application/json',
         },
       });
-  
+
       if (response.status >= 200 && response.status < 300) {
         console.log('Employee updated successfully!');
         navigate('/payroll');
@@ -107,40 +121,170 @@ const EditEmployeePage = () => {
       console.error('Axios request error:', error);
     }
   };
-  
-  
+
+
 
   return (
-    <div>
-      <h2>Edit Employee</h2>
-      <form onSubmit={handleEditEmployee}>
-        <Stack spacing={3}>
-          {Object.keys(employeeData).map((section) =>
-            employeeData[section] && typeof employeeData[section] === 'object' ? (
-              Object.entries(employeeData[section])
-                .filter(([field]) => !field.includes('Date') && Number.isNaN(Number(field)) && field !== '_id' && field !== 'payHistory' && field !== 'leaveHistory')
-                .map(([field, value]) => (
-                  <TextField
-                    key={field}
-                    required
-                    label={field.charAt(0).toUpperCase() + field.slice(1)}
-                    type={field.includes('Date') ? 'date' : 'text'}
-                    value={value}
-                    onChange={(e) => handleChange(e, section, field)}
-                  />
-                ))
-            ) : null
-          )}
-  
-          <Button type="submit" variant="contained" color="primary">
-            Save
-          </Button>
-        </Stack>
-      </form>
-    </div>
+    <Box
+      sx={{
+        ...bgGradient({
+          color: alpha(theme.palette.background.default, 0.9),
+          imgUrl: '/assets/background/overlay_4.jpg',
+        }),
+        height: 1,
+      }}
+    >
+      <Logo
+        sx={{
+          position: 'fixed',
+          top: { xs: 16, md: 24 },
+          left: { xs: 16, md: 24 },
+        }}
+      />
+
+      <Stack alignItems="center" justifyContent="center" sx={{ height: 1 }}>
+        <Card
+          sx={{
+            p: 5,
+            width: 1,
+            maxWidth: 420,
+          }}
+        >
+          <Typography variant="h4">Edit Employee</Typography>
+
+          <Divider sx={{ my: 3 }}>
+            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+              เแก้ไขข้อมูลพนักงาน
+            </Typography>
+          </Divider>
+
+          <Stack spacing={3}>
+            <TextField
+              required
+              name="firstname"
+              label="First Name"
+              value={employeeData.personalInformation.firstName}
+              onChange={(e) =>
+                setEmployeeData((prevData) => ({
+                  ...prevData,
+                  personalInformation: {
+                    ...prevData.personalInformation,
+                    firstName: e.target.value,
+                  },
+                }))
+              }
+            />
+            <TextField
+              required
+              name="lastname"
+              label="Lastname"
+              value={employeeData.personalInformation.lastName}
+              onChange={(e) =>
+                setEmployeeData((prevData) => ({
+                  ...prevData,
+                  personalInformation: {
+                    ...prevData.personalInformation,
+                    lastName: e.target.value,
+                  },
+                }))
+              }
+            />
+            <TextField
+              required
+              name="type"
+              label="Type"
+              value={employeeData.employmentInformation.employmentType}
+              onChange={(e) =>
+                setEmployeeData((prevData) => ({
+                  ...prevData,
+                  employmentInformation: {
+                    ...prevData.employmentInformation,
+                    employmentType: e.target.value,
+                  },
+                }))
+              }
+            />
+            <FormControl fullWidth>
+              <TextField
+                select
+                label="Position"
+                value={employeeData.employmentInformation.position}
+                onChange={(e) => handleChange(e, 'employmentInformation', 'position')}
+              >
+                <MenuItem value="Programmer">Programmer</MenuItem>
+                <MenuItem value="Senior Programmer">Senior Programmer</MenuItem>
+                <MenuItem value="System Analyst">System Analyst</MenuItem>
+                <MenuItem value="System Engineer">System Engineer</MenuItem>
+                <MenuItem value="Tester">Tester</MenuItem>
+                <MenuItem value="Project Manager">Project Manager</MenuItem>
+                <MenuItem value="IT Support/Help Desk/Administrator">IT Support/Help Desk/Administrator</MenuItem>
+                <MenuItem value="Software Engineer	">Software Engineer</MenuItem>
+
+              </TextField>
+            </FormControl>
+            <TextField
+              required
+              name="salary"
+              label="Salary"
+              type="number"
+              value={employeeData.payrollInformation.salary}
+              onChange={(e) =>
+                setEmployeeData((prevData) => ({
+                  ...prevData,
+                  payrollInformation: {
+                    ...prevData.payrollInformation,
+                    salary: e.target.value,
+                  },
+                }))
+              }
+            />
+            <TextField
+              name="taxDeduction"
+              label="Tax Deduction"
+              value={employeeData.payrollInformation.taxDeduction}
+              onChange={(e) =>
+                setEmployeeData((prevData) => ({
+                  ...prevData,
+                  payrollInformation: {
+                    ...prevData.payrollInformation,
+                    taxDeduction: e.target.value,
+                  },
+                }))
+              }
+            />
+            <TextField
+              name="socialSecurity"
+              label="Social Security"
+              value={employeeData.payrollInformation.socialSecurity}
+              onChange={(e) =>
+                setEmployeeData((prevData) => ({
+                  ...prevData,
+                  payrollInformation: {
+                    ...prevData.payrollInformation,
+                    socialSecurity: e.target.value,
+                  },
+                }))
+              }
+            />
+            <LoadingButton
+              fullWidth
+              size="large"
+              type="submit"
+              variant="contained"
+              color="inherit"
+              onClick={handleEditEmployee}
+            >
+              Save
+            </LoadingButton>
+          </Stack>
+
+
+        </Card>
+      </Stack>
+    </Box>
   );
-  
-  
-};  
+
+
+};
 
 export default EditEmployeePage;
