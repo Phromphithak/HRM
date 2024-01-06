@@ -1,7 +1,9 @@
 
 import axios from 'axios';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
+import { useLocation } from "react-router-dom";
 
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -25,12 +27,12 @@ import navConfig from './config-navigation';
 // ----------------------------------------------------------------------
 
 export default function Nav({ openNav, onCloseNav }) {
-  const pathname = usePathname();
-
   const upLg = useResponsive('up', 'lg');
-  const [user, setUser] = useState([]);
-  // const [loading, setLoading] = useState(true);
-  // const [error, setError] = useState(null);
+  const UserRedux = useSelector((state) => state?.user.email);
+  const [localUser, setLocalUser] = useState([]);
+  const [loggedInUserId, setLoggedInUserId] = useState('');  // Add this line
+  const location = useLocation();
+
   useEffect(() => {
     const authenticateUser = async () => {
       try {
@@ -39,30 +41,30 @@ export default function Nav({ openNav, onCloseNav }) {
             ? 'http://localhost:5050'
             : 'https://hrmbackend-x4ea.onrender.com';
         axios.defaults.baseURL = baseURL;
+
         const response = await axios.get('/api/users/');
         const userData = response.data;
-        console.log('userData:', userData);
-  
-        setUser(userData);
+        setLocalUser(userData);
+
+        // Get the loggedInUserId from the query parameter
+        const query = new URLSearchParams(location.search);
+        const loggedInUserIdParam = query.get('loggedInUserId');
+        console.log('loggedInUserIdParam:', loggedInUserIdParam);
+        setLoggedInUserId(UserRedux || ''); // Set to empty string if not present
       } catch (error) {
         console.error('Authentication error:', error);
       }
     };
-  
-    authenticateUser();
-  }, []);
-  useEffect(() => {
-    if (openNav) {
-      onCloseNav();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname]);
 
+    authenticateUser();
+  }, [location.search, UserRedux]);
+  const loggedInUser = localUser.find((userData) => userData.email === loggedInUserId);
+  console.log('loggedInUserId:', loggedInUserId);
+  console.log('loggedInUser:', loggedInUser);
   const renderAccount = (
     <Stack>
-      {user.map((userData) => (
+      {loggedInUser && (
         <Box
-          key={userData._id}
           sx={{
             my: 3,
             mx: 2.5,
@@ -74,20 +76,21 @@ export default function Nav({ openNav, onCloseNav }) {
             bgcolor: (theme) => alpha(theme.palette.grey[500], 0.12),
           }}
         >
-          <Avatar src={userData?.profileImage} alt="photoURL" />
+          <Avatar src={loggedInUser?.profileImage} alt="photoURL" />
   
           <Box sx={{ ml: 2 }}>
             <>
-              <Typography variant="subtitle2">{userData.fullName}</Typography>
+              <Typography variant="subtitle2">{loggedInUser?.fullName}</Typography>
               <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                {userData?.role}
+                {loggedInUser?.role}
               </Typography>
             </>
           </Box>
         </Box>
-      ))}
+      )}
     </Stack>
   );
+  
 
   const renderMenu = (
     <Stack component="nav" spacing={0.5} sx={{ px: 2 }}>

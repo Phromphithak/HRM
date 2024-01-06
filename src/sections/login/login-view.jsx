@@ -1,6 +1,8 @@
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
@@ -15,8 +17,6 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import { alpha, useTheme } from '@mui/material/styles';
 import InputAdornment from '@mui/material/InputAdornment';
 
-import { useRouter } from 'src/routes/hooks';
-
 import { bgGradient } from 'src/theme/css';
 
 import Logo from 'src/components/logo';
@@ -27,7 +27,7 @@ import Iconify from 'src/components/iconify';
 export default function LoginView() {
   const theme = useTheme();
 
-  const router = useRouter();
+  const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
@@ -38,7 +38,7 @@ export default function LoginView() {
     // Example: Make an API call to authenticate the user
     handleLogin();
   };
-
+  const dispatch = useDispatch();
   const handleLogin = async () => {
     const baseURL =
       process.env.NODE_ENV === 'development'
@@ -48,7 +48,7 @@ export default function LoginView() {
 
     try {
       const response = await axios.post(
-        '/api/users/login', // Adjust the route endpoint
+        '/api/users/login',
         {
           email,
           password,
@@ -59,17 +59,13 @@ export default function LoginView() {
           },
         }
       );
-
+      console.log('API Response:', response.data);
       if (response.status === 200) {
-        // Login successful
-        Swal.fire({
-          icon: 'success',
-          title: 'Success',
-          text: 'Login successful',
-        }).then(() => {
-          // Redirect or perform any other action after successful login
-          router.push('/');
-        });
+        const userData = response.data;
+        console.log('User Data:', userData);
+        dispatch({ type: 'LOGIN_USER', payload: response.data });
+
+        navigate('/');
       } else {
         // Handle errors or unsuccessful login
         console.log(response.status);
@@ -192,7 +188,6 @@ export default function LoginView() {
             >
               <Iconify icon="eva:facebook-fill" color="#1877F2" />
             </Button>
-
             <Button
               fullWidth
               size="large"
