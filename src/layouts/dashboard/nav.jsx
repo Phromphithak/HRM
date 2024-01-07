@@ -3,7 +3,7 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
-import { useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -32,6 +32,7 @@ export default function Nav({ openNav, onCloseNav }) {
   const [localUser, setLocalUser] = useState([]);
   const [loggedInUserId, setLoggedInUserId] = useState('');  // Add this line
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const authenticateUser = async () => {
@@ -41,23 +42,27 @@ export default function Nav({ openNav, onCloseNav }) {
             ? 'http://localhost:5050'
             : 'https://hrmbackend-x4ea.onrender.com';
         axios.defaults.baseURL = baseURL;
-
         const response = await axios.get('/api/users/');
         const userData = response.data;
         setLocalUser(userData);
-
-        // Get the loggedInUserId from the query parameter
+  
         const query = new URLSearchParams(location.search);
         const loggedInUserIdParam = query.get('loggedInUserId');
-        console.log('loggedInUserIdParam:', loggedInUserIdParam);
-        setLoggedInUserId(UserRedux || ''); // Set to empty string if not present
+        if(UserRedux){
+          setLoggedInUserId(UserRedux);
+        }
+        else if (!loggedInUserIdParam) {
+          console.log('User not found:', loggedInUserIdParam);
+          navigate('/login');
+        }
       } catch (error) {
         console.error('Authentication error:', error);
       }
     };
-
+  
     authenticateUser();
-  }, [location.search, UserRedux]);
+  }, [location.search, UserRedux, navigate]);
+  
   const loggedInUser = localUser.find((userData) => userData.email === loggedInUserId);
   console.log('loggedInUserId:', loggedInUserId);
   console.log('loggedInUser:', loggedInUser);
@@ -77,7 +82,7 @@ export default function Nav({ openNav, onCloseNav }) {
           }}
         >
           <Avatar src={loggedInUser?.profileImage} alt="photoURL" />
-  
+
           <Box sx={{ ml: 2 }}>
             <>
               <Typography variant="subtitle2">{loggedInUser?.fullName}</Typography>
@@ -90,7 +95,7 @@ export default function Nav({ openNav, onCloseNav }) {
       )}
     </Stack>
   );
-  
+
 
   const renderMenu = (
     <Stack component="nav" spacing={0.5} sx={{ px: 2 }}>
