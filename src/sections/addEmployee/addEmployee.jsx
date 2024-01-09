@@ -1,7 +1,8 @@
 import axios from 'axios';
 // ----sweetalert2
 import Swal from 'sweetalert2'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import withReactContent from 'sweetalert2-react-content'
 
 import Box from '@mui/material/Box';
@@ -20,12 +21,16 @@ import { alpha, useTheme } from '@mui/material/styles';
 import { useRouter } from 'src/routes/hooks';
 
 import { bgGradient } from 'src/theme/css';
+import { setUser } from 'src/redux/userAction';
 
 import Logo from 'src/components/logo';
 
 export default function AddEmployee() {
   const theme = useTheme();
   const router = useRouter();
+
+  const dispatch = useDispatch();
+
 
   const [employeeData, setEmployeeData] = useState({
     personalInformation: {
@@ -66,10 +71,35 @@ export default function AddEmployee() {
     adjustments: [],
   });
 
+  const baseURL =
+    process.env.NODE_ENV === 'development'
+      ? 'http://localhost:5050'
+      : 'https://hrmbackend-x4ea.onrender.com';
+  axios.defaults.baseURL = baseURL;
+  const loggedInUser = useSelector((state) => state?.users);
+  console.log('Logged In User:', loggedInUser);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('/api/users/');
+        dispatch(setUser(response.data));
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+  
+    // Fetch data only if loggedInUser is undefined or incomplete
+    if (!loggedInUser || !loggedInUser.length) {
+      fetchData();
+    }
+  }, [loggedInUser, dispatch]);
+  
+
+
+
   const handleAddEmployee = async () => {
     // Check if the required fields are NOT filled in
-    if (!employeeData.personalInformation?.firstName || !employeeData.personalInformation?.lastName) 
-      {
+    if (!employeeData.personalInformation?.firstName || !employeeData.personalInformation?.lastName) {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
@@ -77,15 +107,11 @@ export default function AddEmployee() {
       });
     } else {
       // Rest of the code for submitting the form
-      
+
       const MySwal = withReactContent(Swal);
 
       try {
-        const baseURL =
-        process.env.NODE_ENV === 'development'
-          ? 'http://localhost:5050'
-          : 'https://hrmbackend-x4ea.onrender.com';
-        axios.defaults.baseURL = baseURL;
+
         const response = await axios.post('/api/employees', employeeData, {
           headers: {
             'Content-Type': 'application/json',
@@ -215,7 +241,7 @@ export default function AddEmployee() {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={employeeData.position}
+                value={employeeData.employmentInformation?.position}
                 label="Position"
                 onChange={handleChange}
               >
@@ -233,7 +259,7 @@ export default function AddEmployee() {
               name="salary"
               label="Salary"
               type="number"
-              value={employeeData.payrollInformation.salary}
+              value={employeeData.payrollInformation?.salary}
               onChange={(e) =>
                 setEmployeeData((prevData) => ({
                   ...prevData,
@@ -275,19 +301,19 @@ export default function AddEmployee() {
               }
             />
             <TextField
-                name="specialWorkHistory"
-                label="bonus"
-                value={employeeData.specialWorkHistory?.bonus}
-                onChange={(e) =>
-                  setEmployeeData((prevData) => ({
-                    ...prevData,
-                    specialWorkHistory: {
-                      ...prevData.specialWorkHistory,
-                      bonus: e.target.value,
-                    },
-                  }))
-                }
-              />
+              name="specialWorkHistory"
+              label="bonus"
+              value={employeeData.specialWorkHistory?.bonus}
+              onChange={(e) =>
+                setEmployeeData((prevData) => ({
+                  ...prevData,
+                  specialWorkHistory: {
+                    ...prevData.specialWorkHistory,
+                    bonus: e.target.value,
+                  },
+                }))
+              }
+            />
             <LoadingButton
               fullWidth
               size="large"

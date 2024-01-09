@@ -1,5 +1,9 @@
+// tsconfig.json or jsconfig.json
 {
   "compilerOptions": {
-    "baseUrl": "."
+    "baseUrl": ".",
+    "paths": {
+      "@reduxjs/toolkit": ["node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js"]
+    }
   }
 }

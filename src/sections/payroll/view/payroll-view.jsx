@@ -1,5 +1,6 @@
 // payroll-view.jsx
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
 import { Box } from '@mui/material';
@@ -118,7 +119,7 @@ export default function PayrollPage() {
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <Typography variant="h4">PayRoll System</Typography>
-        <Button href='/addemployees' variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />}>
+        <Button component={Link} to='/addemployees' variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />}>
           New User
         </Button>
       </Stack>

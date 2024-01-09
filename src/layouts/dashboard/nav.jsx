@@ -24,11 +24,12 @@ import Scrollbar from 'src/components/scrollbar';
 import { NAV } from './config-layout';
 import navConfig from './config-navigation';
 
+
 // ----------------------------------------------------------------------
 
 export default function Nav({ openNav, onCloseNav }) {
   const upLg = useResponsive('up', 'lg');
-  const UserRedux = useSelector((state) => state?.user.email);
+  const UserRedux = useSelector((state) => state?.user);
   const [localUser, setLocalUser] = useState([]);
   const [loggedInUserId, setLoggedInUserId] = useState('');  // Add this line
   const location = useLocation();
@@ -45,11 +46,11 @@ export default function Nav({ openNav, onCloseNav }) {
         const response = await axios.get('/api/users/');
         const userData = response.data;
         setLocalUser(userData);
-  
+        console.log('Authenticated User Data:', userData);
         const query = new URLSearchParams(location.search);
         const loggedInUserIdParam = query.get('loggedInUserId');
         if(UserRedux){
-          setLoggedInUserId(UserRedux);
+          setLoggedInUserId(UserRedux.id);
         }
         else if (!loggedInUserIdParam) {
           console.log('User not found:', loggedInUserIdParam);
@@ -61,9 +62,8 @@ export default function Nav({ openNav, onCloseNav }) {
     };
   
     authenticateUser();
-  }, [location.search, UserRedux, navigate]);
-  
-  const loggedInUser = localUser.find((userData) => userData.email === loggedInUserId);
+  }, [location.search,UserRedux, navigate]);
+  const loggedInUser = localUser.find((userData) => userData?._id === loggedInUserId);
   console.log('loggedInUserId:', loggedInUserId);
   console.log('loggedInUser:', loggedInUser);
   const renderAccount = (

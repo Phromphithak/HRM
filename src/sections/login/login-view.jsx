@@ -22,6 +22,8 @@ import { bgGradient } from 'src/theme/css';
 import Logo from 'src/components/logo';
 import Iconify from 'src/components/iconify';
 
+import { loginUser } from '../../redux/userAction';
+
 // ----------------------------------------------------------------------
 
 export default function LoginView() {
@@ -34,11 +36,10 @@ export default function LoginView() {
   const [password, setPassword] = useState('');
 
   const handleClick = () => {
-    // You can handle login logic here
-    // Example: Make an API call to authenticate the user
     handleLogin();
   };
   const dispatch = useDispatch();
+  
   const handleLogin = async () => {
     const baseURL =
       process.env.NODE_ENV === 'development'
@@ -61,7 +62,8 @@ export default function LoginView() {
       );
       console.log('API Response:', response.data);
       if (response.status === 200) {
-        const userData = response.data;
+        const userData = response.data.user;
+        dispatch(loginUser(userData));
         console.log('User Data:', userData);
         dispatch({ type: 'LOGIN_USER', payload: response.data });
 

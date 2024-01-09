@@ -31,6 +31,7 @@
     "@iconify/react": "^4.1.1",
     "@mui/lab": "^5.0.0-alpha.147",
     "@mui/material": "^5.15.1",
+    "@reduxjs/toolkit": "^2.0.1",
     "@sweetalert2/eslint-config": "^1.1.8",
     "apexcharts": "^3.43.0",
     "axios": "^1.6.2",
