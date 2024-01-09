@@ -12,8 +12,6 @@ import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 
-import { account } from 'src/_mock/account';
-
 // ----------------------------------------------------------------------
 
 const MENU_OPTIONS = [
@@ -96,7 +94,7 @@ export default function AccountPopover() {
             border: (theme) => `solid 2px ${theme.palette.background.default}`,
           }}
         >
-          {account.displayName.charAt(0).toUpperCase()}
+          {loggedInUser?.fullName.charAt(0).toUpperCase()}
         </Avatar>
       </IconButton>
 

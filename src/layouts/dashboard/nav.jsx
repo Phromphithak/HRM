@@ -81,7 +81,7 @@ export default function Nav({ openNav, onCloseNav }) {
             bgcolor: (theme) => alpha(theme.palette.grey[500], 0.12),
           }}
         >
-          <Avatar src={loggedInUser?.profileImage} alt="photoURL" />
+          <Avatar src={loggedInUser?.profileImage} alt={loggedInUser?.fullName.charAt(0).toUpperCase()} />
 
           <Box sx={{ ml: 2 }}>
             <>
