@@ -1,4 +1,7 @@
-import { useState } from 'react';
+import  axios  from 'axios'
+import { useSelector } from 'react-redux';
+import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
@@ -40,6 +43,35 @@ export default function AccountPopover() {
   const handleClose = () => {
     setOpen(null);
   };
+  const UserRedux = useSelector((state) => state?.user.email);
+  const [localUser, setLocalUser] = useState([]);
+  const [loggedInUserId, setLoggedInUserId] = useState('');  // Add this line
+  const location = useLocation();
+  useEffect(() => {
+    const finduser = async () =>{
+      try {
+        const baseURL =
+            process.env.NODE_ENV === 'development'
+              ? 'http://localhost:5050'
+              : 'https://hrmbackend-x4ea.onrender.com';
+          axios.defaults.baseURL = baseURL;
+          const response = await axios.get('/api/users/');
+          const userData = response.data;
+          setLocalUser(userData);
+          const query = new URLSearchParams(location.search);
+          const loggedInUserIdParam = query.get('loggedInUserId');
+          if(UserRedux){
+          setLoggedInUserId(UserRedux)
+          }else{
+            console.log('no data : ', loggedInUserIdParam);
+          }
+        }catch(error){
+        console.error('User not define : ',error)
+      }
+    }
+    finduser();
+  }, [location.search, UserRedux]);
+  const loggedInUser = localUser.find((userData) => userData.email === loggedInUserId);
 
   return (
     <>
@@ -56,8 +88,8 @@ export default function AccountPopover() {
         }}
       >
         <Avatar
-          src={account.photoURL}
-          alt={account.displayName}
+          src={loggedInUser?.profileImage}
+          alt={loggedInUser?.fullName}
           sx={{
             width: 36,
             height: 36,
@@ -85,10 +117,10 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2 }}>
           <Typography variant="subtitle2" noWrap>
-            {account.displayName}
+            {loggedInUser?.fullName} {(`(${loggedInUser?.role})`)}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {account.email}
+            {loggedInUser?.email}
           </Typography>
         </Box>
 
