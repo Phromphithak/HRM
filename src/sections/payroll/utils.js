@@ -36,21 +36,34 @@ export function getComparator(order, orderBy) {
 }
 
 export function applyFilter({ inputData, comparator, filterName }) {
+  console.log('Original Data:', inputData);
+
+  // Map each element with its original index to stabilize the sort order
   const stabilizedThis = inputData.map((el, index) => [el, index]);
 
+  // Sort the stabilized array using the comparator
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
     if (order !== 0) return order;
     return a[1] - b[1];
   });
 
+  // Map back to the original array based on the sorted order
   inputData = stabilizedThis.map((el) => el[0]);
 
+  // Apply the filter if filterName is provided
   if (filterName) {
     inputData = inputData.filter(
-      (user) => user.name.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
+      (user) =>
+        user &&
+        user.personalInformation &&
+        user.personalInformation.name &&
+        user.personalInformation.name.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
     );
   }
 
+  console.log('Filtered Data:', inputData);
+
   return inputData;
 }
+
