@@ -48,7 +48,6 @@ export default function PayrollPage() {
     const fetchData = async () => {
       try {
         const { data } = await axios.get(`/api/employees/`);
-        // console.log('Fetched Users:', data);  // Log the fetched data
         setUsers(data);
       } catch (error) {
         console.error('Error fetching data:', error.message);

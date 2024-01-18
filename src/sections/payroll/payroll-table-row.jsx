@@ -38,12 +38,13 @@ export default function UserTableRow({
       
       try {
         const response = await axios.get(`/api/employees/${id}`);
+        const { data } = response;
+        setEmployee(data || {});
         // Check if the status code is not in the range 200-299
         if (response.status < 200 || response.status >= 300) {
           throw new Error(`Server returned an error: ${response.status} ${response.statusText}`);
         }
-        const { data } = response;
-        setEmployee(data || {});
+        
       } catch (error) {
         console.error('Error fetching data:', error);
       }
