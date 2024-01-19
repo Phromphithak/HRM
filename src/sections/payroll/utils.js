@@ -56,8 +56,10 @@ export function applyFilter({ inputData, comparator, filterName }) {
     inputData = inputData.filter(
       (user) =>
         user &&
-        user.name &&  // Assuming name is directly under the user object
-        user.name.toLowerCase().includes(filterName.toLowerCase())
+        user.personalInformation.firstName && (
+          `${user.personalInformation.firstName} ${user.personalInformation.lastName}`)
+        .toLowerCase()
+        .includes(filterName.toLowerCase())
     );
   }
 
