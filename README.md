@@ -51,10 +51,11 @@
 ## การพัฒนา
 
 - คุณสามารถ fork โปรเจคนี้และส่ง pull request มาเพิ่ม Contributions ได้
-- Need update mutiple checkbox delete
-- Need salary cal
-- Need check-in/out day
-- Auntcation and More
+- Need update mutiple checkbox delete :hammer_and_wrench:	
+- Need salary cal:hammer_and_wrench:	
+- Need check-in/out day:hammer_and_wrench:	
+- Auntcation and More :hammer_and_wrench:
+- other :hammer_and_wrench:	
 
 ## ทีม
 
