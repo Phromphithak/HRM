@@ -22,6 +22,11 @@ const navConfig = [
     path: '/payroll',
     icon: icon('save-money')
   },
+  {
+    title: 'Check-in',
+    path: '/checkin',
+    icon: icon('')
+  },
 ];
 
 export default navConfig;

@@ -7,7 +7,7 @@ import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
+// import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
@@ -73,7 +73,7 @@ export default function RegisterView() {
         Swal.fire({
           icon: 'error',
           title: 'Error',
-          text: 'Error during registration',
+          text: 'ดูเหมือนจะมีคนใช้ Email นี้ไปแล้ว!!',
         });
       }
     } catch (error) {
@@ -82,7 +82,7 @@ export default function RegisterView() {
       Swal.fire({
         icon: 'error',
         title: 'Error',
-        text: 'Error during registration',
+        text: 'ดูเหมือนจะมีคนใช้ Email นี้ไปแล้ว!!',
       });
     }
   };
@@ -124,7 +124,7 @@ export default function RegisterView() {
             </Link>
           </Typography>
 
-          <Stack direction="row" spacing={2}>
+          {/* <Stack direction="row" spacing={2}>
             <Button
               fullWidth
               size="large"
@@ -154,11 +154,11 @@ export default function RegisterView() {
             >
               <Iconify icon="eva:twitter-fill" color="#1C9CEA" />
             </Button>
-          </Stack>
+          </Stack> */}
 
           <Divider sx={{ my: 3 }}>
             <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-              OR
+              Fill the Data 
             </Typography>
           </Divider>
 

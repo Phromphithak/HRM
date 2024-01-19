@@ -8,7 +8,7 @@ import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
+// import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
@@ -83,7 +83,7 @@ export default function LoginView() {
       Swal.fire({
         icon: 'error',
         title: 'Error',
-        text: 'Error during login',
+        text: 'May Username or Password is Wrong!!',
       });
     }
   };
@@ -170,7 +170,7 @@ export default function LoginView() {
             </Link>
           </Typography>
 
-          <Stack direction="row" spacing={2}>
+          {/* <Stack direction="row" spacing={2}>
             <Button
               fullWidth
               size="large"
@@ -199,11 +199,11 @@ export default function LoginView() {
             >
               <Iconify icon="eva:twitter-fill" color="#1C9CEA" />
             </Button>
-          </Stack>
+          </Stack> */}
 
           <Divider sx={{ my: 3 }}>
             <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-              OR
+            Username & Password
             </Typography>
           </Divider>
 

@@ -1,6 +1,8 @@
 // edit-employee-page
 import axios from 'axios';
+import Swal from 'sweetalert2'
 import React, { useState, useEffect } from 'react';
+import withReactContent from 'sweetalert2-react-content'
 import { useParams, useNavigate } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
@@ -96,6 +98,7 @@ const EditEmployeePage = () => {
 
   const handleEditEmployee = async () => {
     try {
+      const MySwal = withReactContent(Swal);
       // eslint-disable-next-line
       const { _id, ...dataToSend } = employeeData;
 
@@ -106,7 +109,12 @@ const EditEmployeePage = () => {
       });
 
       if (response.status >= 200 && response.status < 300) {
-        console.log('Employee updated successfully!');
+        MySwal.fire({
+          icon: 'success',
+          title: 'Your work has been saved',
+          showConfirmButton: false,
+          timer: 1500,
+        });
         navigate('/payroll');
       } else {
         console.error('Error updating employee:', response.data);

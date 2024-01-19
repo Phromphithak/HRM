@@ -174,6 +174,7 @@ export default function PayrollPage() {
                   { id: 'salary', label: 'เงินเดือน' },
                   { id: 'tax', label: 'หักเงิน'},
                   { id: 'bonus', label: 'โบนัส'},
+                  { id: 'salary_total', label: 'Total'},
                   { id: 'action', label: 'action', align: 'center' },
                 ]}
               />

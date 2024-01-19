@@ -111,7 +111,10 @@ export default function UserTableRow({
   if (!employee) {
     return null; // You may choose to render a loading indicator while fetching data
   }
-
+  const basesalary = Number(employee?.payrollInformation?.salary) || 0;
+  const totalbonus = Number(employee?.specialWorkHistory?.bonus) || 0;
+  const taxDeduction = Number(employee?.payrollInformation?.taxDeduction) || 0;
+  const total = (basesalary + totalbonus) - taxDeduction
   return (
     <>
       <TableRow hover tabIndex={-1} role="checkbox" selected={selected}>
@@ -133,6 +136,7 @@ export default function UserTableRow({
         <TableCell>{employee?.payrollInformation?.salary}</TableCell>
         <TableCell>{employee?.payrollInformation?.taxDeduction}</TableCell>
         <TableCell>{employee?.specialWorkHistory?.bonus}</TableCell>
+        <TableCell>{total}</TableCell>
         <TableCell align="right">
           <IconButton onClick={handleOpenMenu}>
             <Iconify icon="eva:more-vertical-fill" />
