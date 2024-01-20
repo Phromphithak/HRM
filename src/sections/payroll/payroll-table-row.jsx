@@ -28,14 +28,14 @@ export default function UserTableRow({
 }) {
   const [employee, setEmployee] = useState(null);
   const baseURL =
-        process.env.NODE_ENV === 'development'
-          ? 'http://localhost:5050'
-          : 'https://hrmbackend-x4ea.onrender.com';
-      axios.defaults.baseURL = baseURL;
+    process.env.NODE_ENV === 'development'
+      ? 'http://localhost:5050'
+      : 'https://hrmbackend-x4ea.onrender.com';
+  axios.defaults.baseURL = baseURL;
 
   useEffect(() => {
     const fetchData = async () => {
-      
+
       try {
         const response = await axios.get(`/api/employees/${id}`);
         const { data } = response;
@@ -44,12 +44,12 @@ export default function UserTableRow({
         if (response.status < 200 || response.status >= 300) {
           throw new Error(`Server returned an error: ${response.status} ${response.statusText}`);
         }
-        
+
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
-  
+
     fetchData();
   }, [id]);
   const Navigate = useNavigate();
@@ -80,7 +80,7 @@ export default function UserTableRow({
 
           if (response.status !== 200) {
             console.error('Error deleting user:', response.status, response.statusText);
-          } else{
+          } else {
             console.log('Successfully deleted user');
             MySwal.fire({
               icon: 'success',
@@ -107,6 +107,9 @@ export default function UserTableRow({
     handleCloseMenu();
     Navigate(`/edit-employee/${id}`, { state: { employee } });
   };
+  const handleMoreInfoMenu = () =>{
+    Navigate(`/info/${id}`, {state: {employee}});
+  }
 
   if (!employee) {
     return null; // You may choose to render a loading indicator while fetching data
@@ -157,6 +160,11 @@ export default function UserTableRow({
         <MenuItem onClick={handleEditClick}>
           <Iconify icon="eva:edit-fill" sx={{ mr: 2 }} />
           Edit
+        </MenuItem>
+        
+        <MenuItem onClick={handleMoreInfoMenu}>
+          <Iconify icon="eva:trash-2-outline" sx={{ mr: 2 }} />
+          MoreInfo
         </MenuItem>
 
         <MenuItem onClick={handleDeleteUser} sx={{ color: 'error.main' }}>
