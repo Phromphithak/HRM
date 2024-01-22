@@ -1,3 +1,4 @@
+// Salaryslip.jsx
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -7,7 +8,7 @@ import { Grid, Paper, Table, TableRow, TableBody, TableCell, TableHead, Containe
 
 const SalarySlip = ({ employeeData }) => {
     const formatDate = (dateString) => dateString; // Your date formatting logic here
-  
+
     return (
       <Container>
         <Typography variant="h4" align="center" gutterBottom>

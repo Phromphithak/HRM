@@ -163,7 +163,7 @@ export default function UserTableRow({
         </MenuItem>
         
         <MenuItem onClick={handleMoreInfoMenu}>
-          <Iconify icon="eva:trash-2-outline" sx={{ mr: 2 }} />
+          <Iconify icon="eva:info-fill" sx={{ mr: 2 }} />
           MoreInfo
         </MenuItem>
 

@@ -33,7 +33,7 @@ export default function PayrollPage() {
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');
   const [selected, setSelected] = useState([]);
-  const [orderBy, setOrderBy] = useState('name');
+  const [orderBy, setOrderBy] = useState('firstName');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
@@ -168,7 +168,7 @@ export default function PayrollPage() {
                 onRequestSort={handleSort}
                 onSelectAllClick={handleSelectAllClick}
                 headLabel={[
-                  { id: 'name', label: 'Name' },
+                  { id: 'firstName', label: 'Name' },
                   { id: 'employmentType', label: 'ประเภทการจ้างงาน' },
                   { id: 'position', label: 'ตำแหน่ง' },
                   { id: 'salary', label: 'เงินเดือน' },
@@ -185,7 +185,7 @@ export default function PayrollPage() {
                     <UserTableRow
                       key={row._id}  // เพิ่ม key prop ในนี้
                       id={row._id}
-                      name={row.name}
+                      name={row.firstName}
                       position={row.position}
                       status={row.status}
                       email={row.email}

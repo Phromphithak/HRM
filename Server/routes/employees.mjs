@@ -56,8 +56,34 @@ router.post("/", async (req, res) => {
   }
 });
 
+// This section will help you add pay history to an employee.
+router.post("/:id/payhistory", async (req, res) => {
+  try {
+    const employeeId = req.params.id;
+    const { date, amount } = req.body;
 
-// This section will help you update a record by id.
+    const query = { _id: new ObjectId(employeeId) };
+    const update = {
+      $push: {
+        "payrollInformation.payHistory": {
+          date: new Date(date),
+          amount: parseFloat(amount),
+        },
+      },
+    };
+
+    const collection = await db.collection("employees");
+    const result = await collection.updateOne(query, update);
+
+    console.log("Pay history added:", result);
+    res.send(result).status(200);
+  } catch (error) {
+    console.error('Error adding pay history:', error);
+    res.status(500).send('Server Error');
+  }
+});
+
+// This section will help you update a employees by id.
 router.put("/:id", async (req, res) => {
   try {
     const query = { _id: new ObjectId(req.params.id) };

@@ -1,10 +1,12 @@
+// info.jsx
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 
-import SalarySlip from './salaryslip';
+import Extendinfo from './Extendinfo';
 
-const EmployeeList = () => {
+const MoreInfo = () => {
+  const Navigate = useNavigate;
   const [employeeData, setEmployeeData] = useState({
     personalInformation: {
       firstName: '',
@@ -69,9 +71,9 @@ const EmployeeList = () => {
 
   return (
     <div>
-      <SalarySlip employeeData={employeeData} />
+      <Extendinfo employeeData={employeeData}/>
     </div>
   );
 };
 
-export default EmployeeList;
+export default MoreInfo;

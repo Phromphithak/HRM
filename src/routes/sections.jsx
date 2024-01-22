@@ -14,6 +14,7 @@ const AddEmployeePage = lazy(() => import('src/pages/addemployee'));
 const EditEmployeePage = lazy(() => import('src/pages/editemployee'));
 const PayrollPage = lazy(() => import('src/pages/payroll'));
 const MoreInfo = lazy(() => import('src/pages/info'));
+const SalaryHistory = lazy(() => import('src/pages/saralyhistory'))
 
 // ----------------------------------------------------------------------
 
@@ -36,6 +37,7 @@ export default function Router() {
         { path: 'edit-employee/:employeeId', element: <EditEmployeePage /> },
         { path: 'payroll', element: <PayrollPage /> },
         { path: 'info/:employeeId', element: <MoreInfo />},
+        { path: 'info/:employeeId/SalaryHistory', element: <SalaryHistory />},
       ],
     },
     {
@@ -50,10 +52,10 @@ export default function Router() {
       path: '404',
       element: <Page404 />,
     },
-    {
-      path: '*',
-      element: <Navigate to="/404" replace />,
-    },
+    // {
+    //   path: '*',
+    //   element: <Navigate to="/404" replace />,
+    // },
   ]);
 
   return routes;

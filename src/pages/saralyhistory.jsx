@@ -1,17 +1,17 @@
 import { Helmet } from 'react-helmet-async';
 
-import MoreInfo from 'src/sections/moreInfo/MoreInfo';
+import SalaryHistory from 'src/sections/moreInfo/SalaryHistory';
 
 // ----------------------------------------------------------------------
 
-export default function LoginPage() {
+export default function AddEmployeePage() {
   return (
     <>
       <Helmet>
-        <title> Login | Minimal UI </title>
+        <title> SalaryHistory | Minimal UI </title>
       </Helmet>
 
-      <MoreInfo />
+      <SalaryHistory />
     </>
   );
 }
