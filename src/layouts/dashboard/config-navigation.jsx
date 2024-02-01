@@ -7,11 +7,11 @@ const icon = (name) => (
 );
 
 const navConfig = [
-  {
-    title: 'dashboard',
-    path: '/',
-    icon: icon('ic_analytics'),
-  },
+  // {
+  //   title: 'dashboard',
+  //   path: '/',
+  //   icon: icon('ic_analytics'),
+  // },
   // {
   //   title: 'user',
   //   path: '/user',
@@ -22,11 +22,11 @@ const navConfig = [
     path: '/payroll',
     icon: icon('save-money')
   },
-  {
-    title: 'Check-in',
-    path: '/checkin',
-    icon: icon('')
-  },
+  // {
+  //   title: 'Check-in',
+  //   path: '/checkin',
+  //   icon: icon('')
+  // },
 ];
 
 export default navConfig;

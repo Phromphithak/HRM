@@ -1,12 +1,14 @@
 // info.jsx
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
 
 import Extendinfo from './Extendinfo';
+// import SalarySlip from './salaryslip';
+import SalaryHistory from './SalaryHistory';
 
 const MoreInfo = () => {
-  const Navigate = useNavigate;
+  // const Navigate = useNavigate;
   const [employeeData, setEmployeeData] = useState({
     personalInformation: {
       firstName: '',
@@ -72,6 +74,8 @@ const MoreInfo = () => {
   return (
     <div>
       <Extendinfo employeeData={employeeData}/>
+      <br />
+      <SalaryHistory employeeData={employeeData}/>
     </div>
   );
 };

@@ -1,5 +1,6 @@
+// section.jsx
 import { lazy, Suspense } from 'react';
-import { Outlet, Navigate, useRoutes } from 'react-router-dom';
+import { Outlet, useRoutes } from 'react-router-dom';
 
 import DashboardLayout from 'src/layouts/dashboard';
 
@@ -37,7 +38,7 @@ export default function Router() {
         { path: 'edit-employee/:employeeId', element: <EditEmployeePage /> },
         { path: 'payroll', element: <PayrollPage /> },
         { path: 'info/:employeeId', element: <MoreInfo />},
-        { path: 'info/:employeeId/SalaryHistory', element: <SalaryHistory />},
+        { path: 'info/SalaryHistory/:employeeId', element: <SalaryHistory />},
       ],
     },
     {

@@ -1,8 +1,9 @@
 // moreInfo.jsx
-import PropTypes from 'prop-types';
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { Button, Typography, Grid, Paper } from '@mui/material';
+
+import { Grid, Paper, Button, Typography } from '@mui/material';
 
 const Extendinfo = ({ employeeData }) => {
   const {
@@ -11,13 +12,14 @@ const Extendinfo = ({ employeeData }) => {
     employmentInformation,
     payrollInformation,
     paymentInformation,
-    deductions,
-    specialWorkHistory,
-    adjustments,
+    // deductions,
+    // specialWorkHistory,
+    // adjustments,
   } = employeeData;
 
   return (
     <div>
+
       <Typography variant="h4" gutterBottom>
         Employee Information
       </Typography>
@@ -29,50 +31,72 @@ const Extendinfo = ({ employeeData }) => {
             </Typography>
             <Typography>Name: {`${personalInformation.firstName} ${personalInformation.lastName}`}</Typography>
             <Typography>Address: {personalInformation.address}</Typography>
-            {/* Add more personal information fields as needed */}
+            <Typography>National ID: {personalInformation.nationalID}</Typography>
+            <Typography>Telephone : {personalInformation.phoneNumber}</Typography>
+            <Typography>Email : {personalInformation.email}</Typography>
+
           </Grid>
+
           <Grid item xs={6}>
             <Typography variant="h6" gutterBottom>
               Employment Information
             </Typography>
             <Typography>Position: {employmentInformation.position}</Typography>
             <Typography>Start Date: {employmentInformation.startDate}</Typography>
+            <Typography>WorkSchedule: {employmentInformation.workSchedule}</Typography>
             {/* Add more employment information fields as needed */}
           </Grid>
           <Grid item xs={12}>
-            {/* Add other sections as needed (payroll, payment, deductions, etc.) */}
+            <Typography variant="h6" gutterBottom>
+              Payment & Payroll
+            </Typography>
+            <Typography>Payment Method: {paymentInformation.paymentMethod}</Typography>
+
+            <Typography>Base Salary: {payrollInformation.salary}</Typography>
+            <Typography>Tex Deducation: {payrollInformation.taxDeduction}</Typography>
+            <Typography>Social Dedcation: {payrollInformation.socialSecurity}</Typography>
+            <Typography>OverTime: {payrollInformation.overtime}</Typography>
+
           </Grid>
+
         </Grid>
       </Paper>
-      <Link to={`/info/${_id}/SalaryHistory`}>
-        <Button variant="contained" color="primary" style={{marginTop: '20px' }}>
+      {/* <Link to={`/info/SalaryHistory/${_id}`}>
+        <Button variant="contained" color="primary" style={{ marginTop: '20px' }}>
           View Salary History
         </Button>
-      </Link>
+      </Link> */}
+
     </div>
   );
 };
 
 Extendinfo
-.propTypes = {
+  .propTypes = {
   employeeData: PropTypes.shape({
     _id: PropTypes.string.isRequired,
     personalInformation: PropTypes.shape({
       firstName: PropTypes.string.isRequired,
       lastName: PropTypes.string.isRequired,
       address: PropTypes.string.isRequired,
-      // ... (other personal information fields)
+      nationalID: PropTypes.string.isRequired,
+      phoneNumber: PropTypes.string.isRequired,
+      email: PropTypes.string.isRequired
     }).isRequired,
     employmentInformation: PropTypes.shape({
       position: PropTypes.string.isRequired,
       startDate: PropTypes.string.isRequired, // Adjust the type according to the actual data type used
-      // ... (other employment information fields)
+      workSchedule: PropTypes.string.isRequired,
+      leaveHistory: PropTypes.array.isRequired
     }).isRequired,
     payrollInformation: PropTypes.shape({
-      // ... (other payroll information fields)
+      salary: PropTypes.number.isRequired,
+      taxDeduction: PropTypes.number.isRequired,
+      socialSecurity: PropTypes.number.isRequired,
+      overtime: PropTypes.number.isRequired,
     }).isRequired,
     paymentInformation: PropTypes.shape({
-      // ... (other payment information fields)
+      paymentMethod: PropTypes.string.isRequired,
     }).isRequired,
     deductions: PropTypes.shape({
       // ... (other deductions fields)
