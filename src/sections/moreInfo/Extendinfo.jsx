@@ -1,13 +1,12 @@
 // moreInfo.jsx
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 
-import { Grid, Paper, Button, Typography } from '@mui/material';
+import { Grid, Paper, Typography } from '@mui/material';
 
 const Extendinfo = ({ employeeData }) => {
   const {
-    _id,
+    // _id,
     personalInformation,
     employmentInformation,
     payrollInformation,
@@ -61,11 +60,6 @@ const Extendinfo = ({ employeeData }) => {
 
         </Grid>
       </Paper>
-      {/* <Link to={`/info/SalaryHistory/${_id}`}>
-        <Button variant="contained" color="primary" style={{ marginTop: '20px' }}>
-          View Salary History
-        </Button>
-      </Link> */}
 
     </div>
   );
