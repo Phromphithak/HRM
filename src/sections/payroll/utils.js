@@ -36,8 +36,6 @@ export function getComparator(order, orderBy) {
 }
 
 export function applyFilter({ inputData, comparator, filterName }) {
-  console.log('Original Data:', inputData);
-
   // Map each element with its original index to stabilize the sort order
   const stabilizedThis = inputData.map((el, index) => [el, index]);
 
@@ -62,8 +60,5 @@ export function applyFilter({ inputData, comparator, filterName }) {
         .includes(filterName.toLowerCase())
     );
   }
-
-  console.log('Filtered Data:', inputData);
-
   return inputData;
 }

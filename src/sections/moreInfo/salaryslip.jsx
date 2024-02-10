@@ -1,4 +1,4 @@
-// Salaryslip.jsx
+// SalarySlip.jsx
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -22,8 +22,8 @@ const SalarySlip = ({ employeeData }) => {
                 Personal Information
               </Typography>
               <Typography>
-                <strong>Name:</strong> {employeeData.personalInformation.firstName}{' '}
-                {employeeData.personalInformation.lastName}
+                <strong>Name:</strong> {employeeData?.personalInformation.firstName}{' '}
+                {employeeData?.personalInformation.lastName}
               </Typography>
               {/* Add more personal information fields as needed */}
             </Paper>
@@ -35,7 +35,7 @@ const SalarySlip = ({ employeeData }) => {
                 Employment Information
               </Typography>
               <Typography>
-                <strong>Position:</strong> {employeeData.employmentInformation.position}
+                <strong>Position:</strong> {employeeData?.employmentInformation.position}
               </Typography>
               {/* Add more employment information fields as needed */}
             </Paper>
@@ -57,11 +57,11 @@ const SalarySlip = ({ employeeData }) => {
             <TableBody>
               <TableRow>
                 <TableCell>Basic Salary</TableCell>
-                <TableCell>{employeeData.payrollInformation.salary}</TableCell>
+                <TableCell>{employeeData?.payrollInformation.salary}</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell>Earning - Overtime</TableCell>
-                <TableCell>{employeeData.payrollInformation.overtime}</TableCell>
+                <TableCell>{employeeData?.payrollInformation.overtime}</TableCell>
               </TableRow>
               {/* Add more rows for other income items */}
               <TableRow>
@@ -87,11 +87,11 @@ const SalarySlip = ({ employeeData }) => {
             <TableBody>
               <TableRow>
                 <TableCell>Tax Deduction</TableCell>
-                <TableCell>{employeeData.deductions.tax}</TableCell>
+                <TableCell>{employeeData?.deductions.tax}</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell>Loan Repayment</TableCell>
-                <TableCell>{employeeData.deductions.loanRepayment}</TableCell>
+                <TableCell>{employeeData?.deductions.loanRepayment}</TableCell>
               </TableRow>
               {/* Add more rows for other deduction items */}
               <TableRow>
@@ -107,7 +107,7 @@ const SalarySlip = ({ employeeData }) => {
         </TableContainer>
   
         <Typography variant="caption" sx={{ marginTop: 2 }}>
-          Salary Slip Issued on: {formatDate(employeeData.paymentInformation.paymentDate)}
+          Salary Slip Issued on: {formatDate(employeeData?.paymentInformation.paymentDate)}
         </Typography>
       </Container>
     );
@@ -136,7 +136,7 @@ const SalarySlip = ({ employeeData }) => {
         paymentDate: PropTypes.string.isRequired,
         // Add other payment information properties as needed
       }).isRequired,
-      // Add other employeeData properties as needed
+      // Add other employeeData? properties as needed
     }).isRequired,
   };
   

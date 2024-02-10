@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 import {
   Box,
@@ -39,7 +40,11 @@ const SalaryHistory = ({ employeeData }) => {
             <TableBody>
               {payrollInformation.payHistory.map((historyItem, index) => (
                 <TableRow key={index}>
-                  <TableCell>{historyItem?.date}</TableCell>
+
+                  <Link to={`SalarySlip/${index}`} employeeData={employeeData}>
+                    <TableCell>{historyItem?.date}</TableCell>
+                  </Link>
+                  
                   <TableCell>{historyItem?.amount}</TableCell>
                   <TableCell>{historyItem?.overtime}</TableCell>
                   <TableCell>{historyItem?.taxDeduction}</TableCell>

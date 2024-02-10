@@ -64,8 +64,7 @@ export default function Nav({ openNav, onCloseNav }) {
     authenticateUser();
   }, [location.search,UserRedux, navigate]);
   const loggedInUser = localUser.find((userData) => userData?._id === loggedInUserId);
-  console.log('loggedInUserId:', loggedInUserId);
-  console.log('loggedInUser:', loggedInUser);
+  console.log('loggedInUserData: ', loggedInUserId);
   const renderAccount = (
     <Stack>
       {loggedInUser && (
