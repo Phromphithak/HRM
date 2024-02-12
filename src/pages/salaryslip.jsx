@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 
-import SalarySlip from 'src/sections/moreInfo/SalarySlip';
+import SalarySlip from 'src/sections/moreInfo/Salaryslip';
 
 // ----------------------------------------------------------------------
 

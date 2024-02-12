@@ -41,7 +41,7 @@ const SalaryHistory = ({ employeeData }) => {
               {payrollInformation.payHistory.map((historyItem, index) => (
                 <TableRow key={index}>
 
-                  <Link to={`SalarySlip/${index}`} employeeData={employeeData}>
+                  <Link to={`SalarySlip/${index}`} employeeData={payrollInformation}>
                     <TableCell>{historyItem?.date}</TableCell>
                   </Link>
                   

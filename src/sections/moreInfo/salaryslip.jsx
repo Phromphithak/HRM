@@ -1,13 +1,80 @@
 // SalarySlip.jsx
-import React from 'react';
+import axios from 'axios';
 import PropTypes from 'prop-types';
+import { useParams } from 'react-router-dom';
+import {React, useState, useEffect} from 'react';
 
 import { Grid, Paper, Table, TableRow, TableBody, TableCell, TableHead, Container, Typography, TableContainer } from '@mui/material';
 
 
 
-const SalarySlip = ({ employeeData }) => {
+const SalarySlip = () => {
     const formatDate = (dateString) => dateString; // Your date formatting logic here
+
+    const [employeeData, setEmployeeData] = useState({
+      personalInformation: {
+        firstName: '',
+        lastName: '',
+        address: '',
+        nationalID: '',
+        phoneNumber: '',
+        email: '',
+      },
+      employmentInformation: {
+        position: '',
+        startDate: '',
+        employmentType: '',
+        workSchedule: '',
+        leaveHistory: [],
+      },
+      payrollInformation: {
+        salary: 0,
+        taxDeduction: 0,
+        socialSecurity: 0,
+        overtime: 0,
+        payHistory: [
+
+        ],
+      },
+      paymentInformation: {
+        paymentDate: '',
+        paymentMethod: '',
+      },
+      deductions: {
+        tax: 0,
+        socialSecurity: 0,
+        loanRepayment: 0,
+      },
+      specialWorkHistory: {
+        bonus: 0,
+        allowance: 0,
+      },
+      adjustments: [],
+    });
+    const { employeeId } = useParams();
+  
+    useEffect(() => {
+      const fetchEmployeeData = async () => {
+        const baseURL =
+          process.env.NODE_ENV === 'development'
+            ? 'http://localhost:5050'
+            : 'https://hrmbackend-x4ea.onrender.com';
+        axios.defaults.baseURL = baseURL;
+        try {
+          if (employeeId) {
+            const response = await axios.get(`/api/employees/${employeeId}`);
+            setEmployeeData(response.data || {});
+          } else {
+            console.warn('Employee ID is undefined. Skipping request.');
+          }
+        } catch (error) {
+          console.error('Error fetching employee data:', error);
+        }
+      };
+  
+      fetchEmployeeData();
+    }, [employeeId]);
+    console.log('SaralySlip.log ',employeeData);
 
     return (
       <Container>
@@ -57,7 +124,7 @@ const SalarySlip = ({ employeeData }) => {
             <TableBody>
               <TableRow>
                 <TableCell>Basic Salary</TableCell>
-                <TableCell>{employeeData?.payrollInformation.salary}</TableCell>
+                <TableCell>{employeeData?.payrollInformation.payHistory}</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell>Earning - Overtime</TableCell>
