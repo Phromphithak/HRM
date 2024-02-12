@@ -14,7 +14,9 @@ const payrollInformationSchema = new mongoose.Schema({
   overtime: { type: Number, required: true },
   payHistory: [
     {
-      date: { type: Date, required: true },
+      salary_payhis : { type: Number, required: true},
+      paymentDate_payhis: { type: Date, required: true },
+      date_payhis: { type: Date, required: true },
       amount: { type: Number, required: true },
     },
   ],
