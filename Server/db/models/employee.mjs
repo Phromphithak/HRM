@@ -14,11 +14,15 @@ const payrollInformationSchema = new mongoose.Schema({
   overtime: { type: Number, required: true },
   payHistory: [
     {
+      socialSecurity: { type: Number, required: true },
+      taxDeduction: { type: Number, required: true },
+      overtime: { type: Number, required: true },
       date: { type: Date, required: true },
-      amount: { type: Number, required: true },
+      salary: { type: Number, required: true },
     },
   ],
 });
+
 
 const paymentInformationSchema = new mongoose.Schema({
   paymentDate: { type: Date, required: true },

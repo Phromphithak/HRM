@@ -32,7 +32,9 @@ const SalarySlip = () => {
         taxDeduction: 0,
         socialSecurity: 0,
         overtime: 0,
-        payHistory: [],
+        payHistory: [
+
+        ],
       },
       paymentInformation: {
         paymentDate: '',
@@ -122,7 +124,7 @@ const SalarySlip = () => {
             <TableBody>
               <TableRow>
                 <TableCell>Basic Salary</TableCell>
-                <TableCell>{employeeData?.payrollInformation.salary}</TableCell>
+                <TableCell>{employeeData?.payrollInformation.payHistory}</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell>Earning - Overtime</TableCell>
