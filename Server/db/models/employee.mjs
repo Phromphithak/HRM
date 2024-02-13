@@ -15,6 +15,7 @@ const payrollInformationSchema = new mongoose.Schema({
   payHistory: [
     {
       socialSecurity: { type: Number, required: true },
+      loanRepayment: {type: Number, require: true},
       taxDeduction: { type: Number, required: true },
       overtime: { type: Number, required: true },
       date: { type: Date, required: true },

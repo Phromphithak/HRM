@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 import {
   Box,
@@ -14,11 +14,15 @@ import {
   TableContainer,
 } from '@mui/material';
 
-
 const SalaryHistory = ({ employeeData }) => {
-  console.log('EmployeeData : ', employeeData)
+  console.log('EmployeeData : ', employeeData);
   const { payrollInformation } = employeeData;
-  const hasPayHistory = payrollInformation && payrollInformation.payHistory && payrollInformation.payHistory.length > 0;
+  const { employeeId } = useParams();
+
+  const hasPayHistory =
+    payrollInformation &&
+    payrollInformation.payHistory &&
+    payrollInformation.payHistory.length > 0;
 
   return (
     <div>
@@ -32,23 +36,21 @@ const SalaryHistory = ({ employeeData }) => {
               <TableRow>
                 <TableCell>Date</TableCell>
                 <TableCell>Amount</TableCell>
-                <TableCell>Overtime</TableCell>
-                <TableCell>Tax Deduction</TableCell>
-                <TableCell>Net Salary</TableCell>
+                <TableCell>Other Data</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {payrollInformation.payHistory.map((historyItem, index) => (
                 <TableRow key={index}>
-
-                  <Link to={`SalarySlip/${index}`} employeeData={payrollInformation}>
-                    <TableCell>{historyItem?.date}</TableCell>
-                  </Link>
-                  
+                  <TableCell>
+                    <Link
+                      to={`/info/SalarySlip/${employeeId}/${historyItem?.date}`}
+                    >
+                      {historyItem?.date}
+                    </Link>
+                  </TableCell>
                   <TableCell>{historyItem?.amount}</TableCell>
-                  <TableCell>{historyItem?.overtime}</TableCell>
-                  <TableCell>{historyItem?.taxDeduction}</TableCell>
-                  <TableCell>{historyItem?.netSalary}</TableCell>
+                  <TableCell>{/* Add your other data here */}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

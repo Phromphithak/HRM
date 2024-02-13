@@ -177,8 +177,8 @@ export default function UserTableRow({
 }
 
 UserTableRow.propTypes = {
-  id: PropTypes.string,
-  avatarUrl: PropTypes.any,
-  handleClick: PropTypes.func,
-  selected: PropTypes.any,
+  id: PropTypes.string.isRequired,
+  avatarUrl: PropTypes.string.isRequired,
+  selected: PropTypes.bool.isRequired,
+  handleClick: PropTypes.func.isRequired,
 };

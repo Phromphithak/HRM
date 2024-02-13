@@ -41,7 +41,7 @@ export default function Router() {
         { path: 'info/:employeeId', element: <MoreInfo />},
         { path: 'info/SalaryHistory/:employeeId', element: <SalaryHistory />},
         { path: 'info/SalaryHistory/:employeeId', element: <SalaryHistory />},
-        { path: 'info/:employeeId/SalarySlip/:index', element: <SalarySlip />},
+        { path: 'info/SalarySlip/:employeeId/:selectedDate', element: <SalarySlip />},
       ],
     },
     {

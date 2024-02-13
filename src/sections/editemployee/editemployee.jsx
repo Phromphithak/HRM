@@ -388,10 +388,38 @@ const EditEmployeePage = () => {
                       />
                       <TextField
                         name={`payHistoryAmount${index}`}
-                        label="Pay History Amount"
+                        label="loanRepayment"
                         type="number"
-                        value={history.amount}
-                        onChange={(e) => handlePayHistoryChange(e, index, 'amount')}
+                        value={history.loanRepayment}
+                        onChange={(e) => handlePayHistoryChange(e, index, 'loanRepayment')}
+                      />
+                      <TextField
+                      name={`payHistoryAmount${index}`}
+                      label="Pay salary History Amount"
+                      type="number"
+                      value={history.salary}
+                      onChange={(e) => handlePayHistoryChange(e, index, 'salary')}
+                      />
+                      <TextField
+                      name={`payHistoryAmount${index}`}
+                      label="OverTime Amount"
+                      type="number"
+                      value={history.overtime}
+                      onChange={(e) => handlePayHistoryChange(e, index, 'overtime')}
+                      />
+                      <TextField
+                      name={`payHistoryAmount${index}`}
+                      label="TaxDeduction Amount"
+                      type="number"
+                      value={history.taxDeduction}
+                      onChange={(e) => handlePayHistoryChange(e, index, 'taxDeduction')}
+                      />
+                      <TextField
+                      name={`payHistoryAmount${index}`}
+                      label="SocialSecurity Amount"
+                      type="number"
+                      value={history.socialSecurity}
+                      onChange={(e) => handlePayHistoryChange(e, index, 'socialSecurity')}
                       />
                     </Stack>
                   </div>
