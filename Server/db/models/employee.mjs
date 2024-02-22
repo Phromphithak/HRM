@@ -62,6 +62,7 @@ const personalInformationSchema = new mongoose.Schema({
   nationalID: { type: String, required: true },
   phoneNumber: { type: String, required: true },
   email: { type: String, required: true },
+  image: { type: Buffer },
 });
 
 const employeeSchema = new mongoose.Schema({

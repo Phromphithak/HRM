@@ -14,6 +14,7 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.use(express.json());
+app.use("/public/Uploadimage",express.static("public/Uploadimage"));
 
 app.use("/api/record", records);
 app.use("/api/employees", employees);

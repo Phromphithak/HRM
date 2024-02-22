@@ -28,7 +28,6 @@ import Logo from 'src/components/logo';
 export default function AddEmployee() {
   const theme = useTheme();
   const router = useRouter();
-
   const dispatch = useDispatch();
 
 
@@ -40,6 +39,7 @@ export default function AddEmployee() {
       nationalID: '',
       phoneNumber: '',
       email: '',
+      image: '',
     },
     employmentInformation: {
       position: '',
@@ -87,14 +87,16 @@ export default function AddEmployee() {
         console.error('Error fetching user data:', error);
       }
     };
-  
+
     // Fetch data only if loggedInUser is undefined or incomplete
     if (!loggedInUser || !loggedInUser.length) {
       fetchData();
     }
   }, [loggedInUser, dispatch]);
-  
 
+  
+  
+  
 
 
   const handleAddEmployee = async () => {
@@ -111,7 +113,6 @@ export default function AddEmployee() {
       const MySwal = withReactContent(Swal);
 
       try {
-
         const response = await axios.post('/api/employees', employeeData, {
           headers: {
             'Content-Type': 'application/json',
@@ -184,6 +185,7 @@ export default function AddEmployee() {
             maxWidth: 420,
           }}
         >
+
           <Typography variant="h4">Add Employee</Typography>
 
           <Divider sx={{ my: 3 }}>

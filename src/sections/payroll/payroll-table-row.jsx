@@ -22,7 +22,6 @@ import Iconify from 'src/components/iconify';
 
 export default function UserTableRow({
   id,
-  avatarUrl,
   handleClick,
   selected,
 }) {
@@ -86,7 +85,7 @@ export default function UserTableRow({
               icon: 'success',
               title: 'User deleted successfully!',
             });
-            window.location.reload();
+            Navigate.push('/payroll')
           }
         } catch (error) {
           console.error('Error deleting user:', error);
@@ -127,7 +126,7 @@ export default function UserTableRow({
 
         <TableCell component="th" scope="row" padding="none">
           <Stack direction="row" alignItems="center" spacing={2}>
-            <Avatar alt={employee?.personalInformation?.firstName} src={avatarUrl} />
+            <Avatar alt={employee?.personalInformation?.firstName} src={employee?.personalInformation?.image} />
             <Typography variant="subtitle2" noWrap>
               {employee?.personalInformation?.firstName} {employee?.personalInformation?.lastName}
             </Typography>
@@ -178,7 +177,6 @@ export default function UserTableRow({
 
 UserTableRow.propTypes = {
   id: PropTypes.string.isRequired,
-  avatarUrl: PropTypes.string.isRequired,
   selected: PropTypes.bool.isRequired,
   handleClick: PropTypes.func.isRequired,
 };

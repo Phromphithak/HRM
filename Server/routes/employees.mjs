@@ -3,6 +3,7 @@ import express from "express";
 import db from "../db/conn.mjs";
 import { ObjectId } from "mongodb";
 import { Employee } from "../db/models/employee.mjs";
+import multer from "multer";
 
 
 const router = express.Router();
@@ -83,10 +84,33 @@ router.post("/:id/payhistory", async (req, res) => {
   }
 });
 
-// This section will help you update a employees by id.
-router.put("/:id", async (req, res) => {
+// This section will help you delete a record
+router.delete("/:id", async (req, res) => {
+  const query = { _id: new ObjectId(req.params.id) };
+
+  const collection = db.collection("employees");
+  let result = await collection.deleteOne(query);
+  res.send(result).status(200);
+});
+
+// Your existing imageUpload middleware
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "../public/Uploadimage/");
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + file.originalname);
+  },
+});
+
+const upload = multer({ storage: storage });
+const imageUpload = upload.single("image");
+
+// This section will help you update an employee by id.
+router.put("/:id", imageUpload, async (req, res) => {
   try {
     const query = { _id: new ObjectId(req.params.id) };
+
     // Extract data from the request body
     const {
       personalInformation,
@@ -98,6 +122,7 @@ router.put("/:id", async (req, res) => {
       adjustments,
     } = req.body;
 
+    // Create updates object with non-file fields
     const updates = {
       $set: {
         personalInformation,
@@ -109,10 +134,15 @@ router.put("/:id", async (req, res) => {
         adjustments,
       },
     };
-    
-    let collection = db.collection("employees");
-    let result = await collection.updateOne(query, updates);
-    
+
+    // If req.file exists (image was uploaded), add it to the updates object
+    if (req.file) {
+      updates.$set["personalInformation.image"] = req.file.path;
+    }
+
+    const collection = db.collection("employees");
+    const result = await collection.updateOne(query, updates);
+
     console.log("Update result:", result);
     res.send(result).status(200);
 
@@ -121,13 +151,36 @@ router.put("/:id", async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
-// This section will help you delete a record
-router.delete("/:id", async (req, res) => {
-  const query = { _id: new ObjectId(req.params.id) };
 
-  const collection = db.collection("employees");
-  let result = await collection.deleteOne(query);
-  res.send(result).status(200);
+
+// This api upload images
+router.post("/:id/upload", imageUpload, async (req, res) => {
+  try {
+    const employeeId = req.params.id;
+    const query = { _id: new ObjectId(employeeId) };
+
+    // Check if an image was uploaded
+    if (!req.file) {
+      return res.status(400).send("No image uploaded");
+    }
+
+    // Update the employee document with the image path or other necessary information
+    const update = {
+      $set: {
+        "personalInformation.image": req.file.path,
+      },
+    };
+
+    const collection = await db.collection("employees");
+    const result = await collection.updateOne(query, update);
+
+    console.log("Image uploaded:", result);
+    res.send(result).status(200);
+  } catch (error) {
+    console.error('Error uploading image:', error);
+    res.status(500).send('Server Error');
+  }
 });
+
 
 export default router;

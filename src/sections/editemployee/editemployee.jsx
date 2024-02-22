@@ -8,6 +8,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid';
+import { Avatar } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import Divider from '@mui/material/Divider';
 import MenuItem from '@mui/material/MenuItem';
@@ -35,6 +36,7 @@ const EditEmployeePage = () => {
       nationalID: '',
       phoneNumber: '',
       email: '',
+      image: '',
     },
     employmentInformation: {
       position: '',
@@ -99,13 +101,20 @@ const EditEmployeePage = () => {
 
   const handleEditEmployee = async () => {
     try {
-      const MySwal = withReactContent(Swal);
-      // eslint-disable-next-line
-      const { _id, ...dataToSend } = employeeData;
+      const fileInput = document.getElementById('imageInput');
+      const file = fileInput.files[0];
 
-      const response = await axios.put(`/api/employees/${employeeId}`, employeeData, {
+      const formData = new FormData();
+      formData.append('image', file);
+
+      // Append other employee data to the FormData
+      formData.append('employeeData', JSON.stringify(employeeData));
+
+      const MySwal = withReactContent(Swal);
+
+      const response = await axios.put(`/api/employees/${employeeId}`, formData, {
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'multipart/form-data',
         },
       });
 
@@ -124,6 +133,8 @@ const EditEmployeePage = () => {
       console.error('Axios request error:', error);
     }
   };
+  
+  
 
   const handlePayHistoryChange = (e, index, field) => {
     const { value } = e.target;
@@ -158,6 +169,38 @@ const EditEmployeePage = () => {
       };
     });
   };
+
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  const handleImageChange = async (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setSelectedImage(reader.result);
+      };
+      reader.readAsDataURL(file);
+  
+      try {
+        const formData = new FormData();
+        formData.append('image', file);
+        console.log('formdata : ',formData)
+        const response = await axios.post(`/api/employees/${employeeId}/upload`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+  
+        // Handle the response if needed
+        console.log('Image upload response:', response);
+      } catch (error) {
+        // Handle error if the image upload fails
+        console.error('Error uploading image:', error);
+      }
+    }
+  };
+  
+  
 
 
 
@@ -194,7 +237,16 @@ const EditEmployeePage = () => {
               แก้ไขข้อมูลพนักงาน
             </Typography>
           </Divider>
+          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
 
+                <Avatar
+                  alt="A"
+                  src={selectedImage || '/static/images/avatar/1.jpg'}
+                  sx={{ width: 56, height: 56 }}
+                />
+          </Box>
+
+          
           <Grid container spacing={3}>
             <Grid item xs={12} md={6}>
               <Stack spacing={3}>
@@ -304,6 +356,13 @@ const EditEmployeePage = () => {
                     ข้อมูลพนักงาน
                   </Typography>
                 </Divider>
+                <input
+  type="file"
+  id="imageInput"
+  accept="image/*"
+  onChange={handleImageChange}
+/>
+
                 <FormControl fullWidth>
                   <TextField
                     select
