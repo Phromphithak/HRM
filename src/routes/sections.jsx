@@ -4,7 +4,7 @@ import { Outlet, useRoutes } from 'react-router-dom';
 
 import DashboardLayout from 'src/layouts/dashboard';
 
-const IndexPage = lazy(() => import('src/pages/app'));
+// const IndexPage = lazy(() => import('src/pages/app'));
 const BlogPage = lazy(() => import('src/pages/blog'));
 const UserPage = lazy(() => import('src/pages/user'));
 const LoginPage = lazy(() => import('src/pages/login'));
@@ -31,7 +31,7 @@ export default function Router() {
         </DashboardLayout>
       ),
       children: [
-        { element: <IndexPage />, index: true },
+        { element: <PayrollPage />, index: true },
         { path: 'user', element: <UserPage /> },
         { path: 'products', element: <ProductsPage /> },
         { path: 'blog', element: <BlogPage /> },

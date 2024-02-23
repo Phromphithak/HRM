@@ -135,7 +135,7 @@ export default function PayrollPage() {
           <Grid item xs={12} sm={6} md={3} sx={{ marginLeft: { xs: 0, md: 3 } }}>
             <AppWidgetSummary
               title="New Users"
-              total={1352831}
+              total={1234}
               color="info"
               icon={<img alt="icon" src="/assets/icons/glass/ic_glass_users.png" />}
             />
