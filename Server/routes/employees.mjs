@@ -1,63 +1,54 @@
 // routes/employees.mjs
 import express from "express";
-import db from "../db/conn.mjs";
 import { ObjectId } from "mongodb";
-import { Employee } from "../db/models/employee.mjs";
 import multer from "multer";
-
+import db from "../db/conn.mjs";
 
 const router = express.Router();
 
-// This section will help you get a list of all the employees.
+// Get all employees
 router.get("/", async (req, res) => {
-  let collection = await db.collection("employees");
-  let results = await collection.find({}).toArray();
-  res.send(results).status(200);
-});
-
-// This section will help you get a single record by id
-router.get("/:id", async (req, res) => {
-  let collection = await db.collection("employees");
-  let query = {_id: new ObjectId(req.params.id)};
-  let result = await collection.findOne(query);
-
-  if (!result) res.send("Not found").status(404);
-  else res.send(result).status(200);
-});
-
-// This section will help you create a new record.
-router.post("/", async (req, res) => {
   try {
-    const {
-      personalInformation,
-      employmentInformation,
-      payrollInformation,
-      paymentInformation,
-      deductions,
-      specialWorkHistory,
-      adjustments,
-    } = req.body;
-    const newDocument = {
-      personalInformation,
-      employmentInformation,
-      payrollInformation,
-      paymentInformation,
-      deductions,
-      specialWorkHistory,
-      adjustments,
-    };
-
     const collection = await db.collection("employees");
-    const result = await collection.insertOne(newDocument);
-    res.status(200).send(result); // ops จะบอกถึงเอกสารที่ถูกสร้างขึ้น
-    console.log(result, collection);
+    const results = await collection.find({}).toArray();
+    res.status(200).json(results);
   } catch (error) {
-    console.error(error);
+    console.error('Error fetching employees:', error);
     res.status(500).send('Server Error');
   }
 });
 
-// This section will help you add pay history to an employee.
+// Get a single employee by ID
+router.get("/:id", async (req, res) => {
+  try {
+    const collection = await db.collection("employees");
+    const query = { _id: new ObjectId(req.params.id) };
+    const result = await collection.findOne(query);
+
+    if (!result) res.status(404).send("Not found");
+    else res.status(200).json(result);
+  } catch (error) {
+    console.error('Error fetching employee data:', error);
+    res.status(500).send('Server Error');
+  }
+});
+
+// Create a new employee
+router.post("/", async (req, res) => {
+  try {
+    const newEmployee = req.body;
+
+    const collection = await db.collection("employees");
+    const result = await collection.insertOne(newEmployee);
+
+    res.status(200).json(result.ops[0]); // Return the created employee
+  } catch (error) {
+    console.error('Error creating employee:', error);
+    res.status(500).send('Server Error');
+  }
+});
+
+// Add pay history to an employee
 router.post("/:id/payhistory", async (req, res) => {
   try {
     const employeeId = req.params.id;
@@ -77,110 +68,84 @@ router.post("/:id/payhistory", async (req, res) => {
     const result = await collection.updateOne(query, update);
 
     console.log("Pay history added:", result);
-    res.send(result).status(200);
+    res.status(200).json(result);
   } catch (error) {
     console.error('Error adding pay history:', error);
     res.status(500).send('Server Error');
   }
 });
 
-// This section will help you delete a record
+// Delete an employee by ID
 router.delete("/:id", async (req, res) => {
-  const query = { _id: new ObjectId(req.params.id) };
+  try {
+    const query = { _id: new ObjectId(req.params.id) };
 
-  const collection = db.collection("employees");
-  let result = await collection.deleteOne(query);
-  res.send(result).status(200);
+    const collection = db.collection("employees");
+    const result = await collection.deleteOne(query);
+
+    res.status(200).json(result);
+  } catch (error) {
+    console.error('Error deleting employee:', error);
+    res.status(500).send('Server Error');
+  }
 });
 
-// Your existing imageUpload middleware
+// Update an employee by ID
+router.put("/:id", async (req, res) => {
+  try {
+    const query = { _id: new ObjectId(req.params.id) };
+    const updateData = req.body;
+
+    const collection = db.collection("employees");
+    const result = await collection.updateOne(query, { $set: updateData });
+
+    console.log("Update result:", result);
+    res.status(200).json(result);
+  } catch (error) {
+    console.error('Error updating employee information:', error);
+    res.status(500).send('Server Error');
+  }
+});
+
+// Update employee's image and information
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "../public/Uploadimage/");
   },
   filename: function (req, file, cb) {
-    cb(null, Date.now() + file.originalname);
+    cb(null, file.originalname);
   },
 });
 
 const upload = multer({ storage: storage });
 const imageUpload = upload.single("image");
 
-// This section will help you update an employee by id.
-router.put("/:id", imageUpload, async (req, res) => {
-  try {
-    const query = { _id: new ObjectId(req.params.id) };
-
-    // Extract data from the request body
-    const {
-      personalInformation,
-      employmentInformation,
-      payrollInformation,
-      paymentInformation,
-      deductions,
-      specialWorkHistory,
-      adjustments,
-    } = req.body;
-
-    // Create updates object with non-file fields
-    const updates = {
-      $set: {
-        personalInformation,
-        employmentInformation,
-        payrollInformation,
-        paymentInformation,
-        deductions,
-        specialWorkHistory,
-        adjustments,
-      },
-    };
-
-    // If req.file exists (image was uploaded), add it to the updates object
-    if (req.file) {
-      updates.$set["personalInformation.image"] = req.file.path;
-    }
-
-    const collection = db.collection("employees");
-    const result = await collection.updateOne(query, updates);
-
-    console.log("Update result:", result);
-    res.send(result).status(200);
-
-  } catch (error) {
-    console.error('Error updating employee:', error);
-    res.status(500).send('Server Error');
-  }
-});
-
-
-// This api upload images
-router.post("/:id/upload", imageUpload, async (req, res) => {
+router.put("/:id/upload", imageUpload, async (req, res) => {
   try {
     const employeeId = req.params.id;
     const query = { _id: new ObjectId(employeeId) };
 
     // Check if an image was uploaded
-    if (!req.file) {
-      return res.status(400).send("No image uploaded");
-    }
+    const imagePath = req.file ? req.file.path : null;
 
-    // Update the employee document with the image path or other necessary information
+    // Extract other fields from the request body
+    const employeeData = req.body;
     const update = {
       $set: {
-        "personalInformation.image": req.file.path,
+        "personalInformation.image": imagePath,
+        ...employeeData,
       },
     };
 
     const collection = await db.collection("employees");
     const result = await collection.updateOne(query, update);
 
-    console.log("Image uploaded:", result);
-    res.send(result).status(200);
+    console.log("Image and information uploaded:", result);
+    res.status(200).json(result);
   } catch (error) {
-    console.error('Error uploading image:', error);
+    console.error('Error uploading image and information:', error);
     res.status(500).send('Server Error');
   }
 });
-
 
 export default router;

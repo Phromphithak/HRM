@@ -99,25 +99,38 @@ const EditEmployeePage = () => {
     }));
   };
 
+  const [selectedImage, setSelectedImage] = useState(null);
+
   const handleEditEmployee = async () => {
     try {
       const fileInput = document.getElementById('imageInput');
       const file = fileInput.files[0];
-
+  
       const formData = new FormData();
-      formData.append('image', file);
-
-      // Append other employee data to the FormData
+  
+      // Append employee data as JSON string
       formData.append('employeeData', JSON.stringify(employeeData));
-
+  
+      // Check if a file is selected before appending
+      if (file) {
+        formData.append('image', file);
+  
+        // Read the selected image for preview
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setSelectedImage(reader.result);
+        };
+        reader.readAsDataURL(file);
+      }
+  
       const MySwal = withReactContent(Swal);
-
-      const response = await axios.put(`/api/employees/${employeeId}`, formData, {
+      console.log('FormData :',formData)
+      const response = await axios.put(`/api/employees/${employeeId}/upload`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
-
+  
       if (response.status >= 200 && response.status < 300) {
         MySwal.fire({
           icon: 'success',
@@ -133,7 +146,6 @@ const EditEmployeePage = () => {
       console.error('Axios request error:', error);
     }
   };
-  
   
 
   const handlePayHistoryChange = (e, index, field) => {
@@ -169,39 +181,6 @@ const EditEmployeePage = () => {
       };
     });
   };
-
-  const [selectedImage, setSelectedImage] = useState(null);
-
-  const handleImageChange = async (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setSelectedImage(reader.result);
-      };
-      reader.readAsDataURL(file);
-  
-      try {
-        const formData = new FormData();
-        formData.append('image', file);
-        console.log('formdata : ',formData)
-        const response = await axios.post(`/api/employees/${employeeId}/upload`, formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        });
-  
-        // Handle the response if needed
-        console.log('Image upload response:', response);
-      } catch (error) {
-        // Handle error if the image upload fails
-        console.error('Error uploading image:', error);
-      }
-    }
-  };
-  
-  
-
 
 
   return (
@@ -360,7 +339,7 @@ const EditEmployeePage = () => {
   type="file"
   id="imageInput"
   accept="image/*"
-  onChange={handleImageChange}
+  onChange={handleEditEmployee}
 />
 
                 <FormControl fullWidth>

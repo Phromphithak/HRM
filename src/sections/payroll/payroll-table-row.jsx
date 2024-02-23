@@ -85,7 +85,7 @@ export default function UserTableRow({
               icon: 'success',
               title: 'User deleted successfully!',
             });
-            Navigate.push('/payroll')
+            Navigate(0)
           }
         } catch (error) {
           console.error('Error deleting user:', error);
