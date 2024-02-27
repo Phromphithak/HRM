@@ -26,8 +26,8 @@ const payrollInformationSchema = new mongoose.Schema({
 
 
 const paymentInformationSchema = new mongoose.Schema({
-  paymentDate: { type: Date, required: true },
-  paymentMethod: { type: String, required: true },
+  paymentDate: { type: Date, required: false },
+  paymentMethod: { type: String, required: false },
 });
 
 const deductionsSchema = new mongoose.Schema({
@@ -49,9 +49,9 @@ const adjustmentsSchema = new mongoose.Schema({
 
 const employmentInformationSchema = new mongoose.Schema({
   position: { type: String, required: true },
-  startDate: { type: Date, required: true },
+  startDate: { type: Date, required: false },
   employmentType: { type: String, required: true },
-  workSchedule: { type: String, required: true },
+  workSchedule: { type: String, required: false },
   leaveHistory: [leaveHistorySchema],
 });
 
@@ -59,9 +59,9 @@ const personalInformationSchema = new mongoose.Schema({
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
   address: { type: String, required: true },
-  nationalID: { type: String, required: true },
-  phoneNumber: { type: String, required: true },
-  email: { type: String, required: true },
+  nationalID: { type: String, required: false },
+  phoneNumber: { type: String, required: false },
+  email: { type: String, required: false },
   image: { type: Buffer },
 });
 
