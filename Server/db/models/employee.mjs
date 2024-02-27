@@ -2,9 +2,10 @@
 import mongoose from "mongoose";
 
 const leaveHistorySchema = new mongoose.Schema({
-  startDate: { type: Date, required: true },
-  endDate: { type: Date, required: true },
-  reason: { type: String, required: true },
+  startDate: { type: Date, required: false },
+  endDate: { type: Date, required: false },
+  reason: { type: String, required: false },
+  
 });
 
 const payrollInformationSchema = new mongoose.Schema({
@@ -52,6 +53,7 @@ const employmentInformationSchema = new mongoose.Schema({
   startDate: { type: Date, required: false },
   employmentType: { type: String, required: true },
   workSchedule: { type: String, required: false },
+  lateTime : {type: String, require: true},
   leaveHistory: [leaveHistorySchema],
 });
 
