@@ -103,14 +103,35 @@ const EditEmployeePage = () => {
 
   const handleEditEmployee = async () => {
     try {
+      const MySwal = withReactContent(Swal);
+      const response = await axios.put(`/api/employees/${employeeId}`, employeeData, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+  
+      if (response.status >= 200 && response.status < 300) {
+        MySwal.fire({
+          icon: 'success',
+          title: 'Your work has been saved',
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        navigate('/payroll');
+      } else {
+        console.error('Error updating employee:', response.data);
+      }
+    } catch (error) {
+      console.error('Axios request error:', error);
+    }
+  };
+  
+  const handleImageSave = async () => {
+    try {
       const fileInput = document.getElementById('imageInput');
       const file = fileInput.files[0];
   
       const formData = new FormData();
-  
-      // Append employee data as JSON string
-      formData.append('employeeData', JSON.stringify(employeeData));
-  
       // Check if a file is selected before appending
       if (file) {
         formData.append('image', file);
@@ -122,9 +143,7 @@ const EditEmployeePage = () => {
         };
         reader.readAsDataURL(file);
       }
-  
       const MySwal = withReactContent(Swal);
-      console.log('FormData :',formData)
       const response = await axios.put(`/api/employees/${employeeId}/upload`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -138,7 +157,6 @@ const EditEmployeePage = () => {
           showConfirmButton: false,
           timer: 1500,
         });
-        navigate('/payroll');
       } else {
         console.error('Error updating employee:', response.data);
       }
@@ -336,11 +354,11 @@ const EditEmployeePage = () => {
                   </Typography>
                 </Divider>
                 <input
-  type="file"
-  id="imageInput"
-  accept="image/*"
-  onChange={handleEditEmployee}
-/>
+                  type="file"
+                  id="imageInput"
+                  accept="image/*"
+                  onChange={handleImageSave}
+                />
 
                 <FormControl fullWidth>
                   <TextField

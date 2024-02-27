@@ -41,7 +41,7 @@ router.post("/", async (req, res) => {
     const collection = await db.collection("employees");
     const result = await collection.insertOne(newEmployee);
 
-    res.status(200).json(result.ops[0]); // Return the created employee
+    res.status(200).json(result); // Return the created employee
   } catch (error) {
     console.error('Error creating employee:', error);
     res.status(500).send('Server Error');
@@ -93,13 +93,21 @@ router.delete("/:id", async (req, res) => {
 // Update an employee by ID
 router.put("/:id", async (req, res) => {
   try {
+    const employeeId = req.params.id;
     const query = { _id: new ObjectId(req.params.id) };
-    const updateData = req.body;
+    
+    // Exclude _id from updateData
+    const updateData = { ...req.body };
+    delete updateData._id;
+
+    console.log('Employee ID:', employeeId);
+    console.log('Update Request Body:', req.body);
 
     const collection = db.collection("employees");
     const result = await collection.updateOne(query, { $set: updateData });
 
-    console.log("Update result:", result);
+    console.log('Update Result:', result);
+
     res.status(200).json(result);
   } catch (error) {
     console.error('Error updating employee information:', error);
@@ -129,11 +137,10 @@ router.put("/:id/upload", imageUpload, async (req, res) => {
     const imagePath = req.file ? req.file.path : null;
 
     // Extract other fields from the request body
-    const employeeData = req.body;
+    // const employeeData = req.body;
     const update = {
       $set: {
         "personalInformation.image": imagePath,
-        ...employeeData,
       },
     };
 

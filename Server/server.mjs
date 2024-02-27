@@ -4,6 +4,7 @@ import cors from "cors";
 import records from "./routes/record.mjs";
 import employees from "./routes/employees.mjs";
 import authRoutes from "./routes/authRoutes.mjs";
+import checkIn from "./routes/checkIn.mjs";
 
 const PORT = 5050;
 const app = express();
@@ -21,6 +22,8 @@ app.use("/api/employees", employees);
 
 // Use the authRoutes router
 app.use("/api/users", authRoutes);
+// api เข้างาน
+app.use("/api/CheckIn",checkIn );
 
 // start the Express server
 app.listen(PORT, () => {
