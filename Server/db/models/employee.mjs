@@ -56,7 +56,12 @@ const employmentInformationSchema = new mongoose.Schema({
   lateTime : {type: String, require: true},
   leaveHistory: [leaveHistorySchema],
   checkInTime: { type: String, require: true },
-  attendanceHistory:[]
+  attendanceHistory:[{
+    date:{type: Date, require:true},
+    status:{type: String, require:true},
+    reason:{type: String, require:true},
+    checkInTime:{type: String, require:true},
+  }]
 });
 
 const personalInformationSchema = new mongoose.Schema({

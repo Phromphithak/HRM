@@ -1,7 +1,9 @@
 import express from 'express';
-import { recordLeave,recordLate,checkIn, recordAbsence } from "./attendanceController.mjs"
+import { recordLeave,recordLate,checkIn, recordAbsence,attendance } from "./attendanceController.mjs"
 
 const router = express.Router();
+
+router.get('/attendance', attendance)
 
 // บันทึกข้อมูลการขาดงาน
 router.post('/recordAbsence', recordAbsence);

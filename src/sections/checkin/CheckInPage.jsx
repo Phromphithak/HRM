@@ -3,6 +3,9 @@ import React, { useState, useEffect } from 'react';
 
 import { Table ,Button,Select, MenuItem, TableRow,TextField, TableHead, TableBody, TableCell, Typography, TableContainer, } from '@mui/material';
 
+import AttendanceStatusPage from './AttendanceStatusPage';
+
+
 const CheckInPage = () => {
   const [employeeData, setEmployeeData] = useState([]);
   const [selectedEmployees, setSelectedEmployees] = useState([]);
@@ -136,6 +139,7 @@ const CheckInPage = () => {
         Confirm Check-In
       </Button>
       {checkInMessage && <Typography variant="body1">{checkInMessage}</Typography>}
+      <AttendanceStatusPage/>
     </div>
   );
 };
