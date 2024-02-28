@@ -51,7 +51,7 @@ export default function AddEmployee() {
     payrollInformation: {
       salary: 0,
       taxDeduction: 0,
-      socialSecurity: 0,
+      socialSecurity: 350,
       overtime: 0,
       payHistory: [],
     },

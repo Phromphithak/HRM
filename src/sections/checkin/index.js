@@ -1,1 +1,1 @@
-export { default as checkIn } from './checkin';
+export { default as CheckInPage } from './CheckInPage';

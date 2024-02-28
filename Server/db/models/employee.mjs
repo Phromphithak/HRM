@@ -55,12 +55,14 @@ const employmentInformationSchema = new mongoose.Schema({
   workSchedule: { type: String, required: false },
   lateTime : {type: String, require: true},
   leaveHistory: [leaveHistorySchema],
+  checkInTime: { type: String, require: true },
+  attendanceHistory:[]
 });
 
 const personalInformationSchema = new mongoose.Schema({
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
-  address: { type: String, required: true },
+  address: { type: String, required: false },
   nationalID: { type: String, required: false },
   phoneNumber: { type: String, required: false },
   email: { type: String, required: false },

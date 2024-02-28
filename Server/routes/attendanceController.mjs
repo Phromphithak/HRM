@@ -51,7 +51,7 @@ export const recordLeave = async (req, res) => {
 
         // บันทึกการเปลี่ยนแปลง
         await employee.save();
-
+        console.log('Received check-in data:', req.body);
         res.status(200).json({ message: 'Leave recorded successfully' });
     } catch (error) {
         console.error('Error recording leave:', error);
@@ -85,28 +85,44 @@ export const recordLate = async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
-// เข้างาน
+// Check-in function
 export const checkIn = async (req, res) => {
     try {
-        const { employeeId, checkInTime } = req.body;
+        const { employeeIds, checkInTime, attendanceStatus, reason } = req.body;
+        console.log('Received check-in data:', req.body);
 
-        // ค้นหาพนักงาน
-        const employee = await Employee.findById(employeeId);
-
-        if (!employee) {
-            return res.status(404).json({ error: 'Employee not found' });
+        // Check if employeeIds is an array
+        if (!Array.isArray(employeeIds) || employeeIds.length === 0) {
+            return res.status(400).json({ error: 'Invalid employeeIds' });
         }
 
-        // ตรวจสอบว่ามีการเช็คอินแล้วหรือไม่
-        if (employee.employmentInformation.checkInTime) {
-            return res.status(400).json({ error: 'Already checked in' });
+        // Loop through each employeeId and perform check-in
+        for (const employeeId of employeeIds) {
+            // Find employee by ID
+            const employee = await Employee.findById(employeeId);
+
+            if (!employee) {
+                return res.status(404).json({ error: 'Employee not found' });
+            }
+
+            // Check if already checked in
+            if (employee.employmentInformation.checkInTime) {
+                return res.status(400).json({ error: 'Employee already checked in' });
+            }
+
+            // Set check-in information
+            employee.employmentInformation.checkInTime = checkInTime;
+
+            // Add attendance history
+            employee.employmentInformation.attendanceHistory.push({
+                date: new Date(),
+                status: attendanceStatus,
+                reason: reason,
+            });
+
+            // Save changes
+            await employee.save();
         }
-
-        // เข้างาน
-        employee.employmentInformation.checkInTime = checkInTime;
-
-        // บันทึกการเปลี่ยนแปลง
-        await employee.save();
 
         res.status(200).json({ message: 'Check-in recorded successfully' });
     } catch (error) {
@@ -114,3 +130,4 @@ export const checkIn = async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+

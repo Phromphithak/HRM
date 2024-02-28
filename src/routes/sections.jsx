@@ -17,6 +17,7 @@ const PayrollPage = lazy(() => import('src/pages/payroll'));
 const MoreInfo = lazy(() => import('src/pages/info'));
 const SalaryHistory = lazy(() => import('src/pages/saralyhistory'));
 const SalarySlip = lazy(() => import('src/pages/salaryslip'));
+const CheckInPage = lazy(() => import('src/pages/checkin'));
 
 // ----------------------------------------------------------------------
 
@@ -42,9 +43,10 @@ export default function Router() {
         { path: 'info/SalaryHistory/:employeeId', element: <SalaryHistory />},
         { path: 'info/SalaryHistory/:employeeId', element: <SalaryHistory />},
         { path: 'info/SalarySlip/:employeeId/:selectedDate', element: <SalarySlip />},
+        { path: 'checkinPage', element: <CheckInPage />},
       ],
     },
-    {
+    { 
       path: 'login',
       element: <LoginPage />,
     },

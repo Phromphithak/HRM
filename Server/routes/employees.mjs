@@ -95,10 +95,11 @@ router.put("/:id", async (req, res) => {
   try {
     const employeeId = req.params.id;
     const query = { _id: new ObjectId(req.params.id) };
-    
-    // Exclude _id from updateData
+
+    // Exclude _id and image from updateData
     const updateData = { ...req.body };
     delete updateData._id;
+    delete updateData.image;
 
     console.log('Employee ID:', employeeId);
     console.log('Update Request Body:', req.body);
